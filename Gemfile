@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'dotenv-rails'
+gem 'hashie'
+gem 'httparty'
 gem 'pg', '~> 0.15'
 gem 'rails', '4.2.6'
 gem 'sass-rails', '~> 5.0'

@@ -54,6 +54,10 @@ GEM
     execjs (2.6.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    hashie (2.0.5)
+    httparty (0.13.4)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     json (1.8.3)
     loofah (2.0.3)
@@ -66,6 +70,7 @@ GEM
     mime-types-data (3.2016.0221)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
+    multi_xml (0.5.5)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     pg (0.18.4)
@@ -156,6 +161,8 @@ PLATFORMS
 DEPENDENCIES
   byebug
   dotenv-rails
+  hashie
+  httparty
   pg (~> 0.15)
   pry-rails
   rails (= 4.2.6)
