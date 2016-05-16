@@ -1,7 +1,7 @@
 class Subscriber < ActiveRecord::Base
 
-  has_many :accounts, through: :account_subscribers
-  has_many :account_subscribers, inverse_of: :subscriber
+  has_many :accounts, through: :subscriptions
+  has_many :subscriptions, inverse_of: :subscriber
 
   validates :api_key, presence: true
   validates :notifier_id, presence: true
