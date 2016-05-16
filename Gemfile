@@ -10,6 +10,7 @@ group :development, :test do
   gem 'byebug'
   gem 'pry-rails'
   gem 'rspec-rails'
+  gem 'valid_attribute'
 end
 
 group :development do
