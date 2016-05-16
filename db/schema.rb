@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160516194423) do
+ActiveRecord::Schema.define(version: 20160516201624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,16 @@ ActiveRecord::Schema.define(version: 20160516194423) do
   create_table "accounts", force: :cascade do |t|
     t.string   "address"
     t.integer  "balance",    limit: 8, default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "subscribers", force: :cascade do |t|
+    t.text     "notification_url"
+    t.string   "xid"
+    t.string   "api_key"
+    t.string   "notifier_id"
+    t.string   "notifier_key"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
