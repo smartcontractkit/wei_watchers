@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'delayed_job_active_record'
 gem 'dotenv-rails'
 gem 'hashie'
 gem 'httparty'
