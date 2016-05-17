@@ -15,4 +15,16 @@ describe Subscriber, type: :model do
     it { is_expected.to have_valid(:notifier_key).when(SecureRandom.urlsafe_base64) }
     it { is_expected.not_to have_valid(:notifier_key).when(nil, '') }
   end
+
+  describe "#notify" do
+    let(:subscriber) { factory_create :subscriber }
+    let(:params) { {bar: SecureRandom.hex} }
+
+    it "sends a notification to subscriber" do
+      expect(SubscriberClient).to receive_message_chain(:delay, :notify)
+        .with(subscriber.id, params)
+
+      subscriber.notify params
+    end
+  end
 end

@@ -9,4 +9,8 @@ class Subscriber < ActiveRecord::Base
   validates :notification_url, format: URI.regexp
   validates :xid, presence: true
 
+  def notify(info)
+    SubscriberClient.delay.notify(id, info)
+  end
+
 end
