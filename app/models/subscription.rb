@@ -7,4 +7,6 @@ class Subscription < ActiveRecord::Base
   validates :end_at, presence: true
   validates :subscriber, presence: true
 
+  scope :current, -> { where "end_at > ?", Time.now }
+
 end

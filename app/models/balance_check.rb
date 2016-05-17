@@ -1,5 +1,15 @@
 class BalanceCheck
 
+  def self.schedule_checks
+    Subscription.current.pluck(:account_id).uniq.each do |account_id|
+      BalanceCheck.delay.perform account_id
+    end
+  end
+
+  def self.perform(account_id)
+    perform Account.find(account_id)
+  end
+
   def initialize(account)
     @account = account
   end

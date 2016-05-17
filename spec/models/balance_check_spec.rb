@@ -1,4 +1,24 @@
 describe BalanceCheck, type: :model do
+  describe ".schedule_checks" do
+    let(:account) { factory_create :account }
+    let(:old_account) { factory_create :account }
+    let!(:old_subscription1) { factory_create :subscription, account: account, end_at: 1.day.ago }
+    let!(:old_subscription2) { factory_create :subscription, account: old_account, end_at: 1.day.ago }
+    let!(:current_subscription1) { factory_create :subscription, account: account, end_at: 1.day.from_now }
+    let!(:current_subscription2) { factory_create :subscription, account: account, end_at: 1.day.from_now }
+
+    it "schedules a check for every subscription that is still open" do
+      check_count = 0
+      expect(BalanceCheck).to receive_message_chain(:delay, :perform)
+        .with(account.id) do |id|
+          check_count += 1
+        end
+
+      BalanceCheck.schedule_checks
+      expect(check_count).to eq(1)
+    end
+  end
+
   describe "#perform" do
     let(:checker) { BalanceCheck.new(account) }
     let(:past_balance) { rand(1_000_000_000) }
