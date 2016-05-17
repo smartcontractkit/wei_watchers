@@ -1,5 +1,7 @@
 class Account < ActiveRecord::Base
 
+  include HasEthereumClient
+
   has_many :subscribers, through: :subscriptions
   has_many :subscriptions, inverse_of: :account
 
@@ -10,6 +12,10 @@ class Account < ActiveRecord::Base
     subscribers.each do |subscriber|
       subscriber.notify info
     end
+  end
+
+  def current_balance
+    ethereum.current_balance address
   end
 
 end

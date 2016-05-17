@@ -5,7 +5,7 @@ class EthereumClient
   base_uri ENV['ETHEREUM_URL']
 
   def account_balance(account)
-    epost 'eth_getBalance', [account, 'latest']
+    hex_to_int epost('eth_getBalance', [account, 'latest'])
   end
 
   def client_version
@@ -73,14 +73,6 @@ class EthereumClient
 
   def hex_to_int(hex)
     hex.gsub(/\A0x/,'').to_i(16) if hex.present?
-  end
-
-  def solidity
-    @solidity ||= SolidityClient.new
-  end
-
-  def hex_to_int(hex)
-    hex.gsub(/\A0x/, '').to_i(16)
   end
 
 
