@@ -9,3 +9,10 @@ end
 def factory_build(factory_name, options = {})
   FactoryGirl.build(factory_name, options)
 end
+
+def basic_auth_login(subscriber)
+  user = subscriber.notifier_id
+  password = subscriber.notifier_key
+  auth = ActionController::HttpAuthentication::Basic.encode_credentials user, password
+  request.env['HTTP_AUTHORIZATION'] = auth
+end
