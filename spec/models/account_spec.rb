@@ -15,19 +15,21 @@ describe Account, type: :model do
     let(:subscriber1) { factory_create :subscriber }
     let(:subscriber2) { factory_create :subscriber }
     let!(:subscriber3) { factory_create :subscriber }
+    let!(:subscriber4) { factory_create :subscriber }
 
     before do
-      account.subscriptions.create(subscriber: subscriber1, end_at: Time.now)
-      account.subscriptions.create(subscriber: subscriber2, end_at: Time.now)
+      account.subscriptions.create(subscriber: subscriber1, end_at: 1.minute.from_now)
+      account.subscriptions.create(subscriber: subscriber2, end_at: 1.minute.from_now)
+      account.subscriptions.create(subscriber: subscriber4, end_at: 1.minute.ago)
     end
 
     it "notifies only it's accounts subscribers" do
-      uncalled_subscribers = [subscriber1, subscriber2]
-      allow_any_instance_of(Subscriber).to receive(:notify)
-        .with(params) do |subscriber|
-          expect(uncalled_subscribers).to include subscriber
-          uncalled_subscribers.delete subscriber
-        end
+      uncalled_subscribers = [subscriber1, subscriber2].map(&:id)
+      expect(Subscriber).to receive(:notify) do |subscriber_id, options|
+        expect(options).to eq(params)
+        expect(uncalled_subscribers).to include subscriber_id
+        uncalled_subscribers.delete subscriber_id
+      end.twice
 
       account.notify_subscribers(params)
       expect(uncalled_subscribers).to be_empty

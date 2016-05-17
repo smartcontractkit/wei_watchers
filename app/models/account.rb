@@ -9,8 +9,8 @@ class Account < ActiveRecord::Base
   validates :balance, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
   def notify_subscribers(info)
-    subscribers.each do |subscriber|
-      subscriber.notify info
+    subscriptions.current.pluck(:subscriber_id).each do |subscriber_id|
+      Subscriber.notify subscriber_id, info
     end
   end
 

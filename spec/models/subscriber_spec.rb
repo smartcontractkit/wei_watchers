@@ -16,7 +16,7 @@ describe Subscriber, type: :model do
     it { is_expected.not_to have_valid(:notifier_key).when(nil, '') }
   end
 
-  describe "#notify" do
+  describe ".notify" do
     let(:subscriber) { factory_create :subscriber }
     let(:params) { {bar: SecureRandom.hex} }
 
@@ -24,7 +24,7 @@ describe Subscriber, type: :model do
       expect(SubscriberClient).to receive_message_chain(:delay, :notify)
         .with(subscriber.id, params)
 
-      subscriber.notify params
+      Subscriber.notify subscriber.id, params
     end
   end
 end
