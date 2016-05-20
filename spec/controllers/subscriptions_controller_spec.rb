@@ -1,7 +1,7 @@
 describe SubscriptionsController, type: :controller do
   describe "#create" do
     let(:subscriber) { factory_create :subscriber }
-    let(:subscription_params) { {subscription: {address: address}} }
+    let(:subscription_params) { {subscription: {address: address, end_at: 1.day.from_now}} }
     let(:address) { ethereum_address }
 
     context "when the account does not exist yet" do
