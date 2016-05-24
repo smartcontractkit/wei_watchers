@@ -6,6 +6,9 @@ describe Subscriber, type: :model do
     it { is_expected.to have_valid(:xid).when(SecureRandom.urlsafe_base64) }
     it { is_expected.not_to have_valid(:xid).when(nil, '') }
 
+    it { is_expected.to have_valid(:api_id).when(SecureRandom.urlsafe_base64) }
+    it { is_expected.not_to have_valid(:api_id).when(nil, '') }
+
     it { is_expected.to have_valid(:api_key).when(SecureRandom.urlsafe_base64) }
     it { is_expected.not_to have_valid(:api_key).when(nil, '') }
 
