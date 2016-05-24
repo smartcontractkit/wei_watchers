@@ -9,6 +9,10 @@ describe SubscriberClient, type: :model do
       it "posts to the subscriber's notification URL" do
         expect(HTTParty).to receive(:post)
           .with(subscriber.notification_url, {
+            basic_auth: {
+              password: subscriber.notifier_key,
+              username: subscriber.notifier_id,
+            },
             body: params
           })
           .and_return(response)
@@ -24,9 +28,7 @@ describe SubscriberClient, type: :model do
 
       it "posts to the subscriber's notification URL" do
         expect(HTTParty).to receive(:post)
-          .with(subscriber.notification_url, {
-            body: params
-          })
+          .with(subscriber.notification_url, instance_of(Hash))
           .and_return(response)
 
         expect {

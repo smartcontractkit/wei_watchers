@@ -20,7 +20,7 @@ class ApiController < ActionController::Base
   def authenticate_subscriber
     id, key = ActionController::HttpAuthentication::Basic::user_name_and_password request
 
-    unless @subscriber = Subscriber.find_by(notifier_id: id, notifier_key: key)
+    unless @subscriber = Subscriber.find_by(api_id: id, api_key: key)
       render_authentication_message
     end
   end

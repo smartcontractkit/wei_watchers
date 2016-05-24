@@ -24,6 +24,10 @@ class SubscriberClient
 
   def post(body)
     HTTParty.post(subscriber.notification_url, {
+      basic_auth: {
+        password: subscriber.notifier_key,
+        username: subscriber.notifier_id,
+      },
       body: body
     }).body
   end
