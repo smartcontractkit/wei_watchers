@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'delayed_job_active_record'
 gem 'dotenv-rails'
+gem 'foreman'
 gem 'hashie'
 gem 'httparty'
 gem 'pg', '~> 0.15'
