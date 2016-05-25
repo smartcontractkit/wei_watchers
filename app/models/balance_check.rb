@@ -7,7 +7,8 @@ class BalanceCheck
   end
 
   def self.perform(account_id)
-    perform Account.find(account_id)
+    account = Account.find account_id
+    new(account).perform
   end
 
   def initialize(account)

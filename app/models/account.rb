@@ -15,7 +15,7 @@ class Account < ActiveRecord::Base
   end
 
   def current_balance
-    ethereum.current_balance address
+    ethereum.account_balance address
   end
 
 end

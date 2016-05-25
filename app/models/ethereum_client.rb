@@ -5,7 +5,7 @@ class EthereumClient
   base_uri ENV['ETHEREUM_URL']
 
   def account_balance(account)
-    hex_to_int epost('eth_getBalance', [account, 'latest'])
+    hex_to_int epost('eth_getBalance', [account, 'latest']).result
   end
 
   def client_version
