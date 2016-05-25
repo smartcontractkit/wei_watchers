@@ -12,3 +12,5 @@
 !/log/.keep
 /tmp
 .env*
+
+docker-compose.yml

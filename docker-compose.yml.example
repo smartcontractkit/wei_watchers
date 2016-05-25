@@ -1,0 +1,11 @@
+wei_watchers:
+  build: .
+  environment:
+    - "DATABASE_URL=postgres://garwcxofnrgxdf:bsdFV5YGG2hFd26mg0nXa5SljS@ec2-54-235-124-2.compute-1.amazonaws.com:5432/d3a0289v0l1s5p"
+    - "ETHEREUM_URL=http://localhost:8545"
+    - "RACK_ENV=development"
+    - "RAILS_ENV=development"
+    - "SECRET_KEY_BASE=geo3gn3tFbKxtE4cBqzydYvLMTPjfpFkCK6qWFsLnJyLiyd9iJz3ViqsrQehHZNF4XcD2yNGD9orYYNFGjiWX4eTqJCusktJNVnb"
+    - "WEI_WATCHERS_PORT=3174"
+  ports:
+    - "3174:3174"
