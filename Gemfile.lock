@@ -41,6 +41,9 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
     byebug (9.0.3)
+    clockwork (1.0.0)
+      activesupport
+      tzinfo
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
     debug_inspector (0.0.2)
@@ -177,6 +180,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
+  clockwork
   delayed_job_active_record
   dotenv-rails
   factory_girl_rails
