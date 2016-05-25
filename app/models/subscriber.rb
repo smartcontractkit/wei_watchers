@@ -8,10 +8,21 @@ class Subscriber < ActiveRecord::Base
   validates :notifier_id, presence: true
   validates :notifier_key, presence: true
   validates :notification_url, format: URI.regexp
-  validates :xid, presence: true
+
+  before_validation :generate_credentials, on: :create
 
   def self.notify(subscriber_id, info)
     SubscriberClient.delay.notify subscriber_id, info
+  end
+
+
+  private
+
+  def generate_credentials
+    self.api_id ||= SecureRandom.urlsafe_base64(64)
+    self.api_key ||= SecureRandom.urlsafe_base64(64)
+    self.notifier_id ||= SecureRandom.urlsafe_base64(64)
+    self.notifier_key ||= SecureRandom.urlsafe_base64(64)
   end
 
 end
