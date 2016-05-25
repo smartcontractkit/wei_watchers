@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: wei_watchers_production
-  username: wei_watchers
-  password: <%= ENV['WEI_WATCHERS_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
