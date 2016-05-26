@@ -27,4 +27,12 @@ class ApiController < ActionController::Base
     end
   end
 
+  def success_response(hash)
+    render json: hash.merge(acknowledged_at: Time.now.to_i)
+  end
+
+  def failure_response(errors)
+    render json: errors
+  end
+
 end

@@ -6,13 +6,9 @@ class SubscriptionsController < ApiController
     account = Account.find_or_create_by address: address
 
     if subscription = subscriber.subscriptions.create(account: account, end_at: end_at)
-      render json: {
-        address: address,
-        acknowledged_at: Time.now.to_i,
-        end_at: end_at.to_i
-      }
+      success_response address: address, end_at: end_at.to_i
     else
-      render json: {errors: subscription.errors.full_messages}
+      failure_response subscription.errors.full_messages
     end
   end
 
