@@ -13,7 +13,7 @@ class EthereumClient
   end
 
   def gas_price(options = {})
-    epost('eth_gasPrice').result
+    hex_to_int epost('eth_gasPrice').result
   end
 
   def current_block_height(options = {})
