@@ -7,5 +7,6 @@ wei_watchers:
     - "RAILS_ENV=development"
     - "SECRET_KEY_BASE=geo3gn3tFbKxtE4cBqzydYvLMTPjfpFkCK6qWFsLnJyLiyd9iJz3ViqsrQehHZNF4XcD2yNGD9orYYNFGjiWX4eTqJCusktJNVnb"
     - "WEI_WATCHERS_PORT=3174"
+  net: "host"
   ports:
     - "3174:3174"
