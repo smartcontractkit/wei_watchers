@@ -16,4 +16,9 @@ class EthereumController < ApiController
     end
   end
 
+  def get_transaction_count
+    count = ethereum.get_transaction_count(params[:account])
+    success_response count: count.to_s
+  end
+
 end

@@ -49,4 +49,21 @@ describe EthereumController, type: :controller do
     end
   end
 
+  describe "#get_transaction_count" do
+    before { basic_auth_login }
+
+    let(:account) { SecureRandom.hex }
+    let(:tx_count) { rand 1_000_000_000_000 }
+
+    it "returns the gas price via the Ethereum client" do
+      expect_any_instance_of(EthereumClient).to receive(:get_transaction_count)
+        .with(account)
+        .and_return(tx_count)
+
+      get :get_transaction_count, account: account
+
+      expect(json_response['count']).to eq tx_count.to_s
+      expect(json_response['acknowledged_at']).to be_present
+    end
+  end
 end

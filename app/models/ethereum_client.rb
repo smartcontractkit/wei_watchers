@@ -42,6 +42,10 @@ class EthereumClient
     epost('eth_getTransactionReceipt', txid).result
   end
 
+  def get_transaction_count(account)
+    hex_to_int epost('eth_getTransactionCount', [account, 'latest']).result
+  end
+
   def utf8_to_hex(string)
     string.force_encoding('ASCII').bytes.map{|byte| byte.to_s(16) }.join
   end
