@@ -16,4 +16,37 @@ describe EthereumController, type: :controller do
     end
   end
 
+  describe "#send_raw_transaction" do
+    before { basic_auth_login }
+
+    let(:tx_hex) { SecureRandom.hex }
+
+    before do
+      expect_any_instance_of(EthereumClient).to receive(:send_raw_transaction)
+        .and_return(ethereum_response)
+    end
+
+    context "when broadcasting the response returns a transaction ID" do
+      let(:ethereum_response) { double txid: SecureRandom.hex, to_hash: {a: 1} }
+
+      it "responds with an acknowledgement" do
+        post :send_raw_transaction, hex: tx_hex
+
+        expect(json_response['acknowledged_at']).to be_present
+        expect(json_response['errors']).to be_nil
+      end
+    end
+
+    context "when broadcasting the response returns a transaction ID" do
+      let(:ethereum_response) { double error: {"code"=>-32000, "message"=>"rlp: expected input list for types.txdata"}, txid: nil }
+
+      it "responds with an acknowledgement" do
+        post :send_raw_transaction, hex: tx_hex
+
+        expect(json_response['acknowledged_at']).to be_nil
+        expect(json_response['errors']).to be_present
+      end
+    end
+  end
+
 end

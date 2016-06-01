@@ -32,7 +32,7 @@ class ApiController < ActionController::Base
   end
 
   def failure_response(errors)
-    render json: errors
+    render json: {errors: Array.wrap(errors)}
   end
 
 end
