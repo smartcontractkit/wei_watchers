@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   scope path: :api do
     get 'status' => 'application#status'
 
+    get 'call' => 'call#show'
     resources :subscriptions, only: [:create]
     resource :ethereum, only: [] do
       get 'gas_price' => 'ethereum#gas_price'
