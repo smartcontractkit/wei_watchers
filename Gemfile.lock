@@ -164,6 +164,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.4)
+    timecop (0.8.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (3.0.0)
@@ -195,9 +196,10 @@ DEPENDENCIES
   rspec-rails
   sass-rails
   spring
+  timecop
   uglifier
   valid_attribute
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.12.3
+   1.12.5
