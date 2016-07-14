@@ -1,5 +1,6 @@
 class EthereumClient
   WEI_PER_ETHER = 10**18
+  NULL_ACCOUNT = "0x#{'0' * 40}"
 
   include HttpClient
   base_uri ENV['ETHEREUM_URL']
@@ -27,11 +28,14 @@ class EthereumClient
   end
 
   def call(options)
-    epost('eth_call', {
+    epost('eth_call', [{
       data: to_eth_hex(options[:data]),
-      from: eth_account(options[:from]),
+      from: eth_account(options[:from] || NULL_ACCOUNT),
+      gas: to_eth_hex(options[:gas] || 1_000_000_000),
+      gasPrice: hex_gas_price(options[:gas_price]),
       to: eth_account(options[:to]),
-    })
+      value: to_eth_hex(options[:value] || 0),
+    }, 'latest'])
   end
 
   def get_transaction(txid)

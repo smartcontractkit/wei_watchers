@@ -26,6 +26,8 @@ class CallController < ApiController
     @result ||= ethereum.call({
       data: params[:data],
       to: params[:to],
+      gas_limit: params[:gas_limit],
+      gas_price: params[:gas_price],
     }).result
   end
 
@@ -39,7 +41,7 @@ class CallController < ApiController
 
   def utf8
     begin
-      ethereum_client.hex_to_utf8(result)
+      ethereum.hex_to_utf8(result)
     rescue
       nil
     end

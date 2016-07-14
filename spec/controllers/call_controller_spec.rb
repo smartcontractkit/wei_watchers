@@ -10,7 +10,7 @@ describe CallController, type: :controller do
 
     it "returns the result of a call to Ethereum" do
       expect_any_instance_of(EthereumClient).to receive(:call)
-        .with(data: data, to: to)
+        .with(data: data, to: to, gas_limit: nil, gas_price: nil)
         .and_return(double result: result)
 
       get :show, data: data, to: to
@@ -23,7 +23,7 @@ describe CallController, type: :controller do
         "result" => result,
         "time" => Time.now.to_i,
         "to" => to,
-        "utf8" => nil,
+        "utf8" => 'd',
       })
     end
   end
