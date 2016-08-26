@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
+
+  force_ssl if: :ssl_configured?
+
   protect_from_forgery with: :exception
 
   include HasEthereumClient
@@ -19,6 +20,13 @@ class ApplicationController < ActionController::Base
         time: Time.now.to_i
       }, status: :service_unavailable
     end
+  end
+
+
+  private
+
+  def ssl_configured?
+    Rails.env.production? || Rails.env.staging?
   end
 
 end
