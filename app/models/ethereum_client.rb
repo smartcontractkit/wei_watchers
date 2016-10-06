@@ -6,7 +6,7 @@ class EthereumClient
   base_uri ENV['ETHEREUM_URL']
 
   def account_balance(account)
-    hex_to_int epost('eth_getBalance', [account, 'latest']).result
+    hex_to_int epost('eth_getBalance', [to_eth_hex(account), 'latest']).result
   end
 
   def client_version
@@ -22,7 +22,7 @@ class EthereumClient
   end
 
   def send_raw_transaction(hex)
-    epost('eth_sendRawTransaction', hex).tap do |response|
+    epost('eth_sendRawTransaction', to_eth_hex(hex)).tap do |response|
       response.txid = response.result
     end
   end
