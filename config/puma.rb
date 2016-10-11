@@ -5,8 +5,8 @@ threads threads_count, threads_count
 preload_app!
 
 rackup      DefaultRackup
-port        ENV['WEI_WATCHERS_PORT'] || 3174
-environment ENV['RACK_ENV'] || 'development'
+port        (ENV['WEI_WATCHERS_PORT'] || ENV['PORT'] || 3174)
+environment (ENV['RACK_ENV'] || 'development')
 
 on_worker_boot do
   # Worker specific setup for Rails 4.1+
