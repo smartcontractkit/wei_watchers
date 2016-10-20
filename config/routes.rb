@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resource :ethereum, only: [] do
       get 'gas_price' => 'ethereum#gas_price'
       get 'get_transaction_count' => 'ethereum#get_transaction_count'
+      get 'get_transaction' => 'ethereum#get_transaction'
       post 'send_raw_transaction' => 'ethereum#send_raw_transaction'
     end
   end

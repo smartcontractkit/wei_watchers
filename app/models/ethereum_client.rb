@@ -39,7 +39,7 @@ class EthereumClient
   end
 
   def get_transaction(txid)
-    epost('eth_getTransactionByHash', txid).result
+    epost('eth_getTransactionByHash', txid).result || {}
   end
 
   def get_transaction_receipt(txid)

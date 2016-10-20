@@ -66,4 +66,22 @@ describe EthereumController, type: :controller do
       expect(json_response['acknowledged_at']).to be_present
     end
   end
+
+  describe "#get_transaction" do
+    before { basic_auth_login }
+
+    let(:txid) { SecureRandom.hex }
+    let(:ethereum_response) { { foo: 'b4r' } }
+
+    it "returns the gas price via the Ethereum client" do
+      expect_any_instance_of(EthereumClient).to receive(:get_transaction)
+        .with(txid)
+        .and_return(ethereum_response)
+
+      get :get_transaction, txid: txid
+
+      expect(json_response['foo']).to eq 'b4r'
+      expect(json_response['acknowledged_at']).to be_present
+    end
+  end
 end

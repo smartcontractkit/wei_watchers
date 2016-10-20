@@ -28,11 +28,11 @@ class ApiController < ActionController::Base
   end
 
   def success_response(hash)
-    render json: hash.merge(acknowledged_at: Time.now.to_i)
+    render status: :ok, json: hash.merge(acknowledged_at: Time.now.to_i)
   end
 
   def failure_response(errors)
-    render json: {errors: Array.wrap(errors)}
+    render status: :bad_request, json: {errors: Array.wrap(errors)}
   end
 
 end
