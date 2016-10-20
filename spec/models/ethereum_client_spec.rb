@@ -28,6 +28,35 @@ describe EthereumClient, type: :model do
     end
   end
 
+  describe "#get_transaction" do
+    let(:txid) { ethereum_txid }
+    let(:response_body) { {error: 'whatever'}.to_json }
+
+    before do
+      expect(EthereumClient).to receive(:post)
+        .with('/', {
+          basic_auth: instance_of(Hash),
+          body: {
+            id: 7357,
+            jsonrpc: '2.0',
+            method: 'eth_getTransactionByHash',
+            params: [txid]
+          }.to_json,
+          headers: instance_of(Hash)
+        }).and_return(double body: response_body)
+    end
+
+    context "with an error response" do
+      let(:response_body) { {error: 'whatever'}.to_json }
+
+      it "still returns a hash" do
+        response = EthereumClient.new.get_transaction(txid)
+
+        expect(response).to eq({})
+      end
+    end
+  end
+
   describe "#format_string_hex" do
     let(:output) { ethereum.format_string_hex string }
     let(:string) { SecureRandom.base64(size * 2).first(size) }
