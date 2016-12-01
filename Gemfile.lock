@@ -36,6 +36,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    airbrake (5.6.0)
+      airbrake-ruby (~> 1.6)
+    airbrake-ruby (1.6.0)
     arel (6.0.3)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -180,6 +183,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  airbrake
   byebug
   clockwork
   delayed_job_active_record
