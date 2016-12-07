@@ -60,7 +60,7 @@ module HttpClient
   end
 
   def http_client_auth_params
-    {}
+    nil
   end
 
 end

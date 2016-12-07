@@ -12,7 +12,7 @@ describe EthereumClient, type: :model do
     it "posts a new transaction to Ethereum" do
       expect(EthereumClient).to receive(:post)
         .with('/', {
-          basic_auth: instance_of(Hash),
+          basic_auth: nil,
           body: {
             id: 7357,
             jsonrpc: '2.0',
@@ -35,7 +35,7 @@ describe EthereumClient, type: :model do
     before do
       expect(EthereumClient).to receive(:post)
         .with('/', {
-          basic_auth: instance_of(Hash),
+          basic_auth: nil,
           body: {
             id: 7357,
             jsonrpc: '2.0',
@@ -131,7 +131,7 @@ describe EthereumClient, type: :model do
     it "posts a new transaction to Ethereum" do
       expect(EthereumClient).to receive(:post)
         .with('/', {
-          basic_auth: instance_of(Hash),
+          basic_auth: nil,
           body: {
             id: random_id,
             jsonrpc: '2.0',
