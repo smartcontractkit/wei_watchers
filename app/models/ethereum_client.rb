@@ -46,6 +46,20 @@ class EthereumClient
     epost('eth_getTransactionReceipt', txid).result
   end
 
+  def create_filter(options)
+    epost('eth_newFilter', options).result
+  end
+
+  def get_logs(filter_id)
+    response = epost('eth_getFilterLogs', filter_id)
+    response.raise
+    Array.wrap(response.result).flatten
+  end
+
+  def uninstall_filter(filter_id)
+    Array.wrap(epost('eth_uninstall', filter_id).result).flatten
+  end
+
   def get_transaction_count(account)
     hex_to_int epost('eth_getTransactionCount', [account, 'latest']).result
   end

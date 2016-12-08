@@ -1,4 +1,25 @@
 module SpecHelpers
+
+  def ethereum
+    @ethereum ||= EthereumClient.new
+  end
+
+  def default_account
+    @default_account ||= Eth::Key.new({
+      priv: '721b3cb22661758e0a4b9d587cbe5ce672257cde7567bc7cd6640279e686391a'
+    })
+  end
+
+  def default_address
+    default_account.to_address
+  end
+
+  def compiled_solidity(name)
+    HTTParty.post('https://solc.smartcontract.com/api/compile', body: {
+      solidity: File.read("spec/fixtures/ethereum/#{name}.sol")
+    })['contracts'][name]
+  end
+
   def ethereum_txid
     "0x#{SecureRandom.hex(32)}"
   end
@@ -58,20 +79,20 @@ module SpecHelpers
   end
 
   def wait_for_ethereum_confirmation(txid)
-    average_block_time = 17
-    try_rate = 4.0
-    buffer = 3
-
     receipt = nil
-    ((average_block_time * buffer) * try_rate).to_i.times do
-      block_height = ethereum.current_block_height
-      receipt ||= ethereum.get_transaction_receipt(txid)
-
-      if receipt && receipt.blockNumber
-        tx_block_number ||= ethereum.hex_to_int(receipt.blockNumber)
-        break if (tx_block_number && (block_height.to_i >= tx_block_number.to_i))
+    60.times do
+      receipt = ethereum.get_transaction_receipt(txid)
+      if receipt.present?
+        break
+      else
+        sleep 0.5
       end
-      sleep (1 / try_rate)
     end
+    raise "Contract not confirmed" unless receipt.present?
+    receipt
+  end
+
+  def get_contract_address(txid)
+    wait_for_ethereum_confirmation(txid).contractAddress
   end
 end
