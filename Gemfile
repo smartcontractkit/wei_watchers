@@ -15,6 +15,7 @@ gem 'uglifier'
 
 group :development, :test do
   gem 'byebug'
+  gem 'eth'
   gem 'factory_girl_rails'
   gem 'pry-rails'
   gem 'rspec-rails'
