@@ -44,4 +44,14 @@ module SpecHelpers
     bin.unpack('H*')[0]
   end
 
+  def http_response(options = {})
+    double(:fake_http_response, {body: {}.to_json, success?: true}.merge(options))
+  end
+
+  def unstub_ethereum_calls
+    allow(EthereumClient).to receive(:post).and_call_original
+    allow_any_instance_of(EthereumClient).to receive(:gas_price).and_call_original
+    allow_any_instance_of(EthereumClient).to receive(:get_transaction_count).and_call_original
+  end
+
 end

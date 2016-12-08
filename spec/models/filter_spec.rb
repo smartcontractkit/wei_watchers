@@ -1,4 +1,5 @@
 describe Filter do
+
   describe "validations" do
     it { is_expected.to have_valid(:account).when(factory_create(:account), nil) }
 
@@ -10,6 +11,31 @@ describe Filter do
 
     it { is_expected.to have_valid(:topics).when(nil, '' '0x10', [], ['0x10'], [['0x01', '0x02'], ['0x03', '0x04']]) }
 
-    it { is_expected.to have_valid(:xid).when(nil, 'blank') }
+    it { is_expected.to have_valid(:xid).when("0x#{SecureRandom.hex(32)}") }
+    it { is_expected.not_to have_valid(:xid).when('', "0x", "0x#{SecureRandom.hex(33)}") }
   end
+
+  describe "on create" do
+    let(:account) { factory_create :account }
+    let(:filter_id) { new_filter_id }
+    let(:filter) { Filter.new account: account }
+
+    it "creates a filter on the blockchain and saves its ID" do
+      expect_any_instance_of(EthereumClient).to receive(:create_filter)
+        .with({
+          account: account.address,
+          fromBlock: nil,
+          toBlock: nil,
+          topics: [],
+        })
+        .and_return(filter_id)
+
+      expect {
+        filter.save
+      }.to change {
+        filter.xid
+      }.from(nil).to(filter_id)
+    end
+  end
+
 end

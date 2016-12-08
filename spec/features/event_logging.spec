@@ -1,4 +1,6 @@
 describe "logging events" do
+  before { unstub_ethereum_calls }
+
   it "catches events" do
     oracle_data = compiled_solidity('Oracle')
 

@@ -44,4 +44,9 @@ RSpec.configure do |config|
   config.after(:suite) do |example|
     Process.kill "TERM", RSpec.configuration.geth_pid
   end
+
+  config.before do
+    allow(EthereumClient).to receive(:post)
+      .and_return(http_response)
+  end
 end
