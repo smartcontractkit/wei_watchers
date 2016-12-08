@@ -50,14 +50,18 @@ class EthereumClient
     epost('eth_newFilter', options).result
   end
 
-  def get_logs(filter_id)
+  def get_filter_logs(filter_id)
     response = epost('eth_getFilterLogs', filter_id)
-    response.raise
-    Array.wrap(response.result).flatten
+    raise response.error.to_json if response.error.present?
+    Array.wrap(response.result).compact
   end
 
   def uninstall_filter(filter_id)
     Array.wrap(epost('eth_uninstall', filter_id).result).flatten
+  end
+
+  def get_logs(options)
+    epost('eth_getLogs', options)
   end
 
   def get_transaction_count(account)
