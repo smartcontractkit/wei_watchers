@@ -47,6 +47,6 @@ RSpec.configure do |config|
 
   config.before do
     allow(EthereumClient).to receive(:post)
-      .and_return(http_response)
+      .and_return(http_response body: {result: ethereum_txid}.to_json)
   end
 end

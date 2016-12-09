@@ -2,6 +2,8 @@ class Subscriber < ActiveRecord::Base
 
   has_many :accounts, through: :subscriptions
   has_many :subscriptions, inverse_of: :subscriber
+  has_many :filter_subscriptions, inverse_of: :subscriber
+  has_many :filters, through: :filter_subscriptions
 
   validates :api_id, presence: true
   validates :api_key, presence: true

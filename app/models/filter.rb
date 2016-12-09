@@ -1,5 +1,8 @@
 class Filter < ActiveRecord::Base
 
+  has_one :filter_subscription, inverse_of: :filter
+  has_one :subscriber, through: :filter_subscription
+
   include HasEthereumClient
 
   belongs_to :account
