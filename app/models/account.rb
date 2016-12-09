@@ -10,7 +10,7 @@ class Account < ActiveRecord::Base
 
   def notify_subscribers(info)
     subscriptions.current.pluck(:subscriber_id).each do |subscriber_id|
-      Subscriber.notify subscriber_id, info
+      Subscriber.notify subscriber_id, 'Account Balance', info
     end
   end
 

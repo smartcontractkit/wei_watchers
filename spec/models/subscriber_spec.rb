@@ -36,9 +36,9 @@ describe Subscriber, type: :model do
 
     it "sends a notification to subscriber" do
       expect(SubscriberClient).to receive_message_chain(:delay, :notify)
-        .with(subscriber.id, params)
+        .with(subscriber.id, 'accountBalance', params)
 
-      Subscriber.notify subscriber.id, params
+      Subscriber.notify subscriber.id, 'accountBalance', params
     end
   end
 end

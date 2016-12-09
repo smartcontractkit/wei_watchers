@@ -1,16 +1,18 @@
 class SubscriberClient
 
-  def self.notify(subscriber_id, params)
+  def self.notify(subscriber_id, type, params)
     subscriber = Subscriber.find(subscriber_id)
-    new(subscriber).notify(params)
+    new(subscriber).notify(type, params)
   end
 
   def initialize(subscriber)
     @subscriber = subscriber
   end
 
-  def notify(body)
-    response = post(body)
+  def notify(notification_type, body)
+    response = post body.merge({
+      notificationType: notification_type,
+    })
 
     unless response.success?
       json = JSON.parse(response.body)

@@ -23,9 +23,9 @@ describe Account, type: :model do
       account.subscriptions.create(subscriber: subscriber4, end_at: 1.minute.ago)
     end
 
-    it "notifies only it's accounts subscribers" do
+    it "notifies only its accounts subscribers" do
       uncalled_subscribers = [subscriber1, subscriber2].map(&:id)
-      expect(Subscriber).to receive(:notify) do |subscriber_id, options|
+      expect(Subscriber).to receive(:notify) do |subscriber_id, type, options|
         expect(options).to eq(params)
         expect(uncalled_subscribers).to include subscriber_id
         uncalled_subscribers.delete subscriber_id

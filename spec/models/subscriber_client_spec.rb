@@ -2,8 +2,9 @@ describe SubscriberClient, type: :model do
   let(:subscriber) { factory_create :subscriber }
   let(:params) { {baz: SecureRandom.hex} }
 
-  describe ".notify" do
+  describe "#notify" do
     let(:response) { double success?: success, body: body }
+    let(:notification_type) { 'accountBalance' }
     let(:body) { {}.to_json }
 
     before do
@@ -13,7 +14,9 @@ describe SubscriberClient, type: :model do
             password: subscriber.notifier_key,
             username: subscriber.notifier_id,
           },
-          body: params
+          body: params.merge({
+              notificationType: notification_type
+            })
         })
         .and_return(response)
     end
@@ -23,7 +26,7 @@ describe SubscriberClient, type: :model do
 
       it "posts to the subscriber's notification URL" do
         expect {
-          SubscriberClient.notify(subscriber.id, params)
+          SubscriberClient.notify(subscriber.id, notification_type, params)
         }.not_to raise_error
       end
     end
@@ -34,10 +37,9 @@ describe SubscriberClient, type: :model do
 
       it "raises an error" do
         expect {
-          SubscriberClient.notify(subscriber.id, params)
+          SubscriberClient.notify(subscriber.id, notification_type, params)
         }.to raise_error 'Notification failure: ["all of the errors"]'
       end
     end
   end
-
 end
