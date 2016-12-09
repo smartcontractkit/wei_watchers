@@ -10,10 +10,11 @@ class SubscriberClient
   end
 
   def notify(body)
-    json = JSON.parse(post(body))
+    response = post(body)
 
-    if json['acknowledged_at'].blank?
-      raise "Subscriber did not acknowledge: #{json['errors']}"
+    unless response.success?
+      json = JSON.parse(response.body)
+      raise "Notification failure: #{json['errors']}"
     end
   end
 
@@ -29,7 +30,7 @@ class SubscriberClient
         username: subscriber.notifier_id,
       },
       body: body
-    }).body
+    })
   end
 
 end
