@@ -54,4 +54,8 @@ module SpecHelpers
     allow_any_instance_of(EthereumClient).to receive(:get_transaction_count).and_call_original
   end
 
+  def int_to_hex(int)
+    ethereum.int_to_hex(int)
+  end
+
 end

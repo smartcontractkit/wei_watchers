@@ -107,6 +107,10 @@ class EthereumClient
     hex.gsub(/\A0x/,'').to_i(16) if hex.present?
   end
 
+  def int_to_hex(int)
+    "0x#{ int.to_s(16) }"
+  end
+
 
   private
 
