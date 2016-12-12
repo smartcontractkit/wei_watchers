@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161212190248) do
+ActiveRecord::Schema.define(version: 20161212195659) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,13 @@ ActiveRecord::Schema.define(version: 20161212190248) do
     t.integer  "from_block"
     t.integer  "to_block"
     t.text     "topics_json"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "log_event_topics", force: :cascade do |t|
+    t.integer  "event_topic_id"
+    t.integer  "log_event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
