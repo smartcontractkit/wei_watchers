@@ -13,8 +13,8 @@ class Subscriber < ActiveRecord::Base
 
   before_validation :generate_credentials, on: :create
 
-  def self.notify(subscriber_id, type, info)
-    SubscriberClient.delay.notify subscriber_id, type, info
+  def self.update_balance(subscriber_id, info)
+    SubscriberClient.delay.account_balance subscriber_id, info
   end
 
 

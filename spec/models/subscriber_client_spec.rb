@@ -1,22 +1,21 @@
 describe SubscriberClient, type: :model do
   let(:subscriber) { factory_create :subscriber }
   let(:params) { {baz: SecureRandom.hex} }
+  let(:client) { SubscriberClient.new subscriber }
 
-  describe "#notify" do
+  describe "#account_balance" do
     let(:response) { double success?: success, body: body }
     let(:notification_type) { 'accountBalance' }
     let(:body) { {}.to_json }
 
     before do
       expect(HTTParty).to receive(:post)
-        .with(subscriber.notification_url, {
+        .with("#{subscriber.notification_url}/account_balances", {
           basic_auth: {
             password: subscriber.notifier_key,
             username: subscriber.notifier_id,
           },
-          body: params.merge({
-              notificationType: notification_type
-            })
+          body: params
         })
         .and_return(response)
     end
@@ -26,7 +25,7 @@ describe SubscriberClient, type: :model do
 
       it "posts to the subscriber's notification URL" do
         expect {
-          SubscriberClient.notify(subscriber.id, notification_type, params)
+          client.account_balance(params)
         }.not_to raise_error
       end
     end
@@ -37,9 +36,10 @@ describe SubscriberClient, type: :model do
 
       it "raises an error" do
         expect {
-          SubscriberClient.notify(subscriber.id, notification_type, params)
+          client.account_balance(params)
         }.to raise_error 'Notification failure: ["all of the errors"]'
       end
     end
   end
+
 end

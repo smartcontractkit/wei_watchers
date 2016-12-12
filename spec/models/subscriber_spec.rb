@@ -30,15 +30,15 @@ describe Subscriber, type: :model do
     end
   end
 
-  describe ".notify" do
+  describe ".update_balance" do
     let(:subscriber) { factory_create :subscriber }
     let(:params) { {bar: SecureRandom.hex} }
 
     it "sends a notification to subscriber" do
-      expect(SubscriberClient).to receive_message_chain(:delay, :notify)
-        .with(subscriber.id, 'accountBalance', params)
+      expect(SubscriberClient).to receive_message_chain(:delay, :account_balance)
+        .with(subscriber.id, params)
 
-      Subscriber.notify subscriber.id, 'accountBalance', params
+      Subscriber.update_balance subscriber.id, params
     end
   end
 end
