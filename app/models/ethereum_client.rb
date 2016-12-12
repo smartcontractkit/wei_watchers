@@ -56,6 +56,12 @@ class EthereumClient
     Array.wrap(response.result).compact
   end
 
+  def get_filter_changes(filter_id)
+    response = epost('eth_getFilterChanges', filter_id)
+    raise response.error.to_json if response.error.present?
+    Array.wrap(response.result).compact
+  end
+
   def uninstall_filter(filter_id)
     Array.wrap(epost('eth_uninstall', filter_id).result).flatten
   end

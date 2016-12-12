@@ -19,7 +19,7 @@ describe "logging events" do
     contract_address = get_contract_address(tx.hash)
 
     filter = ethereum.create_filter address: contract_address
-    expect(ethereum.get_filter_logs(filter)).to be_empty
+    expect(ethereum.get_filter_changes(filter)).to be_empty
 
     update_message = 'Hi Mom!'
     update_tx = Eth::Tx.new({
@@ -39,7 +39,7 @@ describe "logging events" do
     expect(current_value).to eq(update_message)
 
     ethereum.get_transaction_receipt update_tx.hash
-    logs = ethereum.get_filter_logs filter
+    logs = ethereum.get_filter_changes filter
 
     expect(logs.size).to eq(2)
     topic = '0x' + Eth::Utils.keccak256('Updated(bytes32)').unpack('H*')[0]
