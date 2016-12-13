@@ -3,35 +3,24 @@ describe "logging events" do
 
   it "catches events" do
     oracle_data = compiled_solidity('Oracle')
-
-    tx = Eth::Tx.new({
-      data: hex_to_bin(oracle_data['bytecode']),
-      gas_limit: (oracle_data['gasEstimates']['creation'].last * 10),
-      gas_price: 2100,
-      nonce: ethereum.get_transaction_count(default_address),
-      value: 0,
-    })
-    tx.sign default_account
-    ethereum.send_raw_transaction tx.hex
     write_address = oracle_data['functionHashes']['update(bytes32)']
     read_address = oracle_data['functionHashes']['current()']
     updated_at_address = oracle_data['functionHashes']['updatedAt()']
+
+    tx = send_eth_tx(default_account, {
+      data: hex_to_bin(oracle_data['bytecode']),
+      gas_limit: (oracle_data['gasEstimates']['creation'].last * 10),
+    })
     contract_address = get_contract_address(tx.hash)
 
     filter = ethereum.create_filter address: contract_address
     expect(ethereum.get_filter_changes(filter)).to be_empty
 
     update_message = 'Hi Mom!'
-    update_tx = Eth::Tx.new({
+    update_tx = send_eth_tx(default_account, {
       data: hex_to_bin("#{write_address}#{ethereum.format_bytes32_hex update_message}"),
-      gas_limit: 500_000,
-      gas_price: 2100,
-      nonce: ethereum.get_transaction_count(default_address),
       to: contract_address,
-      value: 0,
     })
-    update_tx.sign default_account
-    ethereum.send_raw_transaction update_tx.hex
 
     receipt = wait_for_ethereum_confirmation update_tx.hash
     current_hex = ethereum.call(data: read_address, to: contract_address).result

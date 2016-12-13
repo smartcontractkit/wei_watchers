@@ -103,4 +103,17 @@ module SpecHelpers
   def get_contract_address(txid)
     wait_for_ethereum_confirmation(txid).contractAddress
   end
+
+  def send_eth_tx(account, details)
+    tx = Eth::Tx.new({
+      data: '',
+      gas_limit: 100_000,
+      gas_price: 2_100,
+      nonce: ethereum.get_transaction_count(account.to_address),
+      value: 0,
+    }.merge(details))
+    tx.sign account
+    ethereum.send_raw_transaction tx.hex
+    tx
+  end
 end
