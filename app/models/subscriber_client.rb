@@ -13,6 +13,10 @@ class SubscriberClient
     check_post_success '/account_balances', body
   end
 
+  def event_log(body)
+    check_post_success '/event_logs', body
+  end
+
 
   private
 
