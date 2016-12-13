@@ -1,8 +1,8 @@
-class LogEvent < ActiveRecord::Base
+class EventLog < ActiveRecord::Base
 
   belongs_to :account
-  has_many :log_event_topics, inverse_of: :log_event
-  has_many :event_topics, through: :log_event_topics
+  has_many :event_log_topics, inverse_of: :event_log
+  has_many :event_topics, through: :event_log_topics
 
   validates :account, presence: true
   validates :block_hash, format: /\A0x[0-9a-f]{64}\z/

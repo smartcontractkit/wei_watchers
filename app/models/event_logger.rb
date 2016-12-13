@@ -9,7 +9,7 @@ class EventLogger
   end
 
   def perform
-    LogEvent.create!({
+    EventLog.create!({
       account: account,
       block_hash: block_hash,
       block_number: block_number,
