@@ -9,8 +9,6 @@ describe Filter do
     it { is_expected.to have_valid(:to_block).when(nil, 0, 1, 324656235467344) }
     it { is_expected.not_to have_valid(:to_block).when(-1, 0.1) }
 
-    it { is_expected.to have_valid(:topics).when(nil, '' '0x10', [], ['0x10'], [['0x01', '0x02'], ['0x03', '0x04']]) }
-
     it { is_expected.to have_valid(:xid).when("0x#{SecureRandom.hex(32)}") }
     it { is_expected.not_to have_valid(:xid).when('', "0x", "0x#{SecureRandom.hex(33)}") }
   end

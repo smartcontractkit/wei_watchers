@@ -1,6 +1,8 @@
 class Filter < ActiveRecord::Base
 
+  has_many :event_topics, through: :filter_topics
   has_one :filter_subscription, inverse_of: :filter
+  has_many :filter_topics, inverse_of: :filter
   has_one :subscriber, through: :filter_subscription
 
   include HasEthereumClient
@@ -15,17 +17,8 @@ class Filter < ActiveRecord::Base
 
   before_validation :create_blockchain_filter, on: :create
 
-  def topics=(new_topics = [])
-    self.topics_json = Array.wrap(new_topics).to_json
-    topics
-  end
-
   def topics
-    if topics_json.present?
-      JSON.parse(topics_json)
-    else
-      []
-    end
+    event_topics.map(&:topic)
   end
 
 

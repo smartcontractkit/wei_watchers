@@ -22,9 +22,9 @@ class FiltersController < ApiController
   def filter_params
     {
       account: find_account,
+      event_topics: event_topics,
       from_block: params[:fromBlock],
       to_block: params[:toBlock],
-      topics: params[:topics],
     }
   end
 
@@ -33,6 +33,12 @@ class FiltersController < ApiController
       Account.find_or_create_by address: address
     else
       nil
+    end
+  end
+
+  def event_topics
+    (params['topics'] || []).map do |topic|
+      EventTopic.find_or_initialize_by topic: topic
     end
   end
 

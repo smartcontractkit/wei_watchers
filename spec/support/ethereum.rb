@@ -36,6 +36,10 @@ module SpecHelpers
     "0x#{SecureRandom.hex(32)}"
   end
 
+  def new_filter_topic
+    "0x#{SecureRandom.hex(32)}"
+  end
+
   def ethereum_create_transaction_response(options = {})
     options.with_indifferent_access
     {
