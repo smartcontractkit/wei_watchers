@@ -18,9 +18,9 @@ describe Account, type: :model do
     let!(:subscriber4) { factory_create :subscriber }
 
     before do
-      account.subscriptions.create(subscriber: subscriber1, end_at: 1.minute.from_now)
-      account.subscriptions.create(subscriber: subscriber2, end_at: 1.minute.from_now)
-      account.subscriptions.create(subscriber: subscriber4, end_at: 1.minute.ago)
+      account.balance_subscriptions.create(subscriber: subscriber1, end_at: 1.minute.from_now)
+      account.balance_subscriptions.create(subscriber: subscriber2, end_at: 1.minute.from_now)
+      account.balance_subscriptions.create(subscriber: subscriber4, end_at: 1.minute.ago)
     end
 
     it "notifies only its accounts subscribers" do

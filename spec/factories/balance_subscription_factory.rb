@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :subscription do
+  factory :balance_subscription do
     account
     end_at { 1.day.from_now }
     subscriber

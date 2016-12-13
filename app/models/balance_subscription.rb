@@ -1,7 +1,7 @@
-class Subscription < ActiveRecord::Base
+class BalanceSubscription < ActiveRecord::Base
 
-  belongs_to :account, inverse_of: :subscriptions
-  belongs_to :subscriber, inverse_of: :subscriptions
+  belongs_to :account, inverse_of: :balance_subscriptions
+  belongs_to :subscriber, inverse_of: :balance_subscriptions
 
   validates :account, presence: true
   validates :end_at, presence: true

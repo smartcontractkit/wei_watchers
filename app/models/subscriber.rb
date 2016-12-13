@@ -1,7 +1,7 @@
 class Subscriber < ActiveRecord::Base
 
-  has_many :accounts, through: :subscriptions
-  has_many :subscriptions, inverse_of: :subscriber
+  has_many :balance_subscriptions, inverse_of: :subscriber
+  has_many :accounts, through: :balance_subscriptions
   has_many :filter_subscriptions, inverse_of: :subscriber
   has_many :filters, through: :filter_subscriptions
 

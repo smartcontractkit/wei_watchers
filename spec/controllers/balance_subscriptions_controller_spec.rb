@@ -1,7 +1,7 @@
-describe SubscriptionsController, type: :controller do
+describe BalanceSubscriptionsController, type: :controller do
   describe "#create" do
     let(:subscriber) { factory_create :subscriber }
-    let(:subscription_params) { {subscription: {address: address, end_at: 1.day.from_now}} }
+    let(:subscription_params) { {subscription: {address: address, end_at: 1.day.from_now.to_i}} }
     let(:address) { ethereum_address }
 
     context "when the account does not exist yet" do
@@ -19,7 +19,7 @@ describe SubscriptionsController, type: :controller do
         expect {
           post :create, subscription_params
         }.to change {
-          subscriber.subscriptions.count
+          subscriber.reload.balance_subscriptions.count
         }.by(+1)
       end
     end
@@ -41,7 +41,7 @@ describe SubscriptionsController, type: :controller do
         expect {
           post :create, subscription_params
         }.to change {
-          subscriber.subscriptions.count
+          subscriber.balance_subscriptions.count
         }.by(+1)
       end
     end
@@ -59,7 +59,7 @@ describe SubscriptionsController, type: :controller do
         expect {
           post :create, subscription_params
         }.not_to change {
-          Subscription.count
+          BalanceSubscription.count
         }
       end
     end

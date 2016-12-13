@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161213195654) do
+ActiveRecord::Schema.define(version: 20161213202650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,14 @@ ActiveRecord::Schema.define(version: 20161213195654) do
     t.decimal  "balance",    precision: 24, default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "balance_subscriptions", force: :cascade do |t|
+    t.integer  "account_id"
+    t.integer  "subscriber_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "end_at"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -91,14 +99,6 @@ ActiveRecord::Schema.define(version: 20161213195654) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "api_id"
-  end
-
-  create_table "subscriptions", force: :cascade do |t|
-    t.integer  "account_id"
-    t.integer  "subscriber_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "end_at"
   end
 
 end

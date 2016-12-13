@@ -2,10 +2,10 @@ describe BalanceCheck, type: :model do
   describe ".schedule_checks" do
     let(:account) { factory_create :account }
     let(:old_account) { factory_create :account }
-    let!(:old_subscription1) { factory_create :subscription, account: account, end_at: 1.day.ago }
-    let!(:old_subscription2) { factory_create :subscription, account: old_account, end_at: 1.day.ago }
-    let!(:current_subscription1) { factory_create :subscription, account: account, end_at: 1.day.from_now }
-    let!(:current_subscription2) { factory_create :subscription, account: account, end_at: 1.day.from_now }
+    let!(:old_subscription1) { factory_create :balance_subscription, account: account, end_at: 1.day.ago }
+    let!(:old_subscription2) { factory_create :balance_subscription, account: old_account, end_at: 1.day.ago }
+    let!(:current_subscription1) { factory_create :balance_subscription, account: account, end_at: 1.day.from_now }
+    let!(:current_subscription2) { factory_create :balance_subscription, account: account, end_at: 1.day.from_now }
 
     it "schedules a check for every subscription that is still open" do
       check_count = 0
