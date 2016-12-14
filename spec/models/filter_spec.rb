@@ -9,8 +9,8 @@ describe Filter do
     it { is_expected.to have_valid(:to_block).when(nil, 0, 1, 324656235467344) }
     it { is_expected.not_to have_valid(:to_block).when(-1, 0.1) }
 
-    it { is_expected.to have_valid(:xid).when("0x#{SecureRandom.hex(32)}") }
-    it { is_expected.not_to have_valid(:xid).when('', "0x", "0x#{SecureRandom.hex(33)}") }
+    it { is_expected.to have_valid(:xid).when("0x#{SecureRandom.hex(16)}") }
+    it { is_expected.not_to have_valid(:xid).when('', "0x", "0x#{SecureRandom.hex(17)}") }
   end
 
   describe "on create" do

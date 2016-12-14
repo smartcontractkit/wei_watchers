@@ -33,7 +33,7 @@ module SpecHelpers
   end
 
   def new_filter_id
-    "0x#{SecureRandom.hex(32)}"
+    "0x#{SecureRandom.hex(16)}"
   end
 
   def new_filter_topic

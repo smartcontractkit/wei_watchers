@@ -15,7 +15,7 @@ class Filter < ActiveRecord::Base
     allow_nil: true, greater_than_or_equal_to: 0, only_integer: true }
   validates :to_block, numericality: {
     allow_nil: true, greater_than_or_equal_to: 0, only_integer: true }
-  validates :xid, format: /\A0x[0-9a-f]{64}\z/
+  validates :xid, format: /\A0x[0-9a-f]{32}\z/
 
   before_validation :create_blockchain_filter, on: :create
 
