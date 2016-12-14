@@ -42,8 +42,9 @@ describe SubscriberClient, type: :model do
   end
 
   describe "#event_log" do
-    let(:response) { double success?: success, body: body }
+    let(:event_log) { factory_create :event_log }
     let(:body) { {}.to_json }
+    let(:response) { double success?: success, body: body }
 
     before do
       expect(HTTParty).to receive(:post)
@@ -52,7 +53,16 @@ describe SubscriberClient, type: :model do
             password: subscriber.notifier_key,
             username: subscriber.notifier_id,
           },
-          body: params
+          body: {
+            address: event_log.address,
+            blockHash: event_log.block_hash,
+            blockNumber: event_log.block_number,
+            data: event_log.data,
+            logIndex: event_log.log_index,
+            topics: event_log.topics,
+            transactionHash: event_log.transaction_hash,
+            transactionIndex: event_log.transaction_index,
+          }
         })
         .and_return(response)
     end
@@ -62,7 +72,7 @@ describe SubscriberClient, type: :model do
 
       it "posts to the subscriber's notification URL" do
         expect {
-          client.event_log(params)
+          client.event_log(event_log.id)
         }.not_to raise_error
       end
     end
@@ -73,7 +83,7 @@ describe SubscriberClient, type: :model do
 
       it "raises an error" do
         expect {
-          client.event_log(params)
+          client.event_log(event_log.id)
         }.to raise_error 'Notification failure: ["all of the errors"]'
       end
     end

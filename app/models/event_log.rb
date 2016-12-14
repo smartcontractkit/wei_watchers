@@ -17,4 +17,8 @@ class EventLog < ActiveRecord::Base
     event_topics.map(&:topic)
   end
 
+  def address
+    account.address
+  end
+
 end
