@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'active_model_serializers', '~> 0.10.0'
 gem 'clockwork'
 gem 'delayed_job_active_record'
 gem 'dotenv-rails'
