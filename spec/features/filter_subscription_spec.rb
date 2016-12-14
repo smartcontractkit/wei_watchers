@@ -29,10 +29,30 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
 
     expect {
       FilterCheck.schedule_checks
-      complete_all_current_background_jobs # generates job needed
-      complete_all_current_background_jobs # runs job needed
+      complete_all_current_background_jobs # generates job to create event
+      complete_all_current_background_jobs # runs job create event
     }.to change {
       subscription.reload.event_logs.count
     }.by(+1)
+
+    event_log = EventLog.last
+    expect(HTTParty).to receive(:post)
+      .with("#{subscriber.notification_url}/event_logs", {
+        basic_auth: {
+          password: subscriber.notifier_key,
+          username: subscriber.notifier_id,
+        },
+        body: {
+          address: event_log.address,
+          blockHash: event_log.block_hash,
+          blockNumber: event_log.block_number,
+          data: event_log.data,
+          logIndex: event_log.log_index,
+          topics: event_log.topics,
+          transactionHash: event_log.transaction_hash,
+          transactionIndex: event_log.transaction_index,
+        }
+      }).and_return(http_response)
+    complete_all_current_background_jobs # runs job to update subscriber
   end
 end
