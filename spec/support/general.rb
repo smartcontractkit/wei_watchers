@@ -12,11 +12,12 @@ module SpecHelpers
     FactoryGirl.build(factory_name, options)
   end
 
-  def basic_auth_login(subscriber = factory_create(:subscriber))
+  def basic_auth_login(subscriber = factory_create(:subscriber), hash = request.env)
     user = subscriber.api_id
     password = subscriber.api_key
     auth = ActionController::HttpAuthentication::Basic.encode_credentials user, password
-    request.env['HTTP_AUTHORIZATION'] = auth
+    hash['HTTP_AUTHORIZATION'] = auth
+    hash
   end
 
   def json_response
@@ -56,6 +57,12 @@ module SpecHelpers
 
   def int_to_hex(int)
     ethereum.int_to_hex(int)
+  end
+
+  def complete_all_current_background_jobs
+    Delayed::Job.all.each do |dj|
+      dj.tap(&:invoke_job).destroy
+    end
   end
 
 end

@@ -14,7 +14,7 @@ class FiltersController < ApiController
 
   def build_filter_subscription
     subscriber.filter_subscriptions.build({
-      end_at: params[:endAt],
+      end_at: Time.at(params[:endAt].to_i),
       filter: Filter.new(filter_params),
     })
   end
