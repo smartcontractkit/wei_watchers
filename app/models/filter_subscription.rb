@@ -11,6 +11,12 @@ class FilterSubscription < ActiveRecord::Base
 
   scope :current, -> { where "end_at >= now()" }
 
+  def self.reset_current_filters
+    current.pluck(:id).each do |id|
+      find(id).reset_filter!
+    end
+  end
+
   def xid
     filter.xid
   end

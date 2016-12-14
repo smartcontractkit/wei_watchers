@@ -14,11 +14,24 @@ describe FilterSubscription, type: :model do
   describe ".current" do
     subject { FilterSubscription.current }
 
-    let(:old_subscription) { factory_create :filter_subscription, end_at: 1.minute.ago }
-    let(:new_subscription) { factory_create :filter_subscription, end_at: 1.minute.from_now }
+    let!(:old_subscription) { factory_create :filter_subscription, end_at: 1.minute.ago }
+    let!(:new_subscription) { factory_create :filter_subscription, end_at: 1.minute.from_now }
 
     it { is_expected.to include new_subscription }
     it { is_expected.not_to include old_subscription }
+  end
+
+  describe ".reset_current_filters" do
+    let!(:old_subscription) { factory_create :filter_subscription, end_at: 1.minute.ago }
+    let!(:current_subscription) { factory_create :filter_subscription, end_at: 1.minute.from_now }
+
+    it "only resets the filters of current filters" do
+      expect_any_instance_of(FilterSubscription).to receive(:reset_filter!) do |subscription|
+        expect(subscription).to eq(current_subscription)
+      end
+
+      FilterSubscription.reset_current_filters
+    end
   end
 
   describe "#reset_filter" do

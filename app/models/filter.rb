@@ -36,7 +36,7 @@ class Filter < ActiveRecord::Base
   private
 
   def create_blockchain_filter
-    self.xid ||= create_on_chain_filter
+    self.xid ||= new_on_chain_filter
   end
 
 end
