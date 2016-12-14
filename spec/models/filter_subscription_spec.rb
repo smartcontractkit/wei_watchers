@@ -21,4 +21,22 @@ describe FilterSubscription, type: :model do
     it { is_expected.not_to include old_subscription }
   end
 
+  describe "#reset_filter" do
+    before do
+      allow(EthereumClient).to receive(:post)
+        .and_return(http_response body: {result: new_filter_id}.to_json)
+    end
+
+    let(:subscription) { factory_create :filter_subscription }
+    let(:filter) { subscription.filter }
+
+    it "creates a new filter id for the filter" do
+      expect {
+        subscription.reset_filter!
+      }.to change {
+        filter.reload.xid
+      }
+    end
+  end
+
 end

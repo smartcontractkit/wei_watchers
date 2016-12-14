@@ -23,16 +23,20 @@ class Filter < ActiveRecord::Base
     event_topics.map(&:topic)
   end
 
-
-  private
-
-  def create_blockchain_filter
-    self.xid ||= ethereum.create_filter({
+  def new_on_chain_filter
+    ethereum.create_filter({
       account: account.try(:address),
       fromBlock: from_block,
       toBlock: to_block,
       topics: topics,
     })
+  end
+
+
+  private
+
+  def create_blockchain_filter
+    self.xid ||= create_on_chain_filter
   end
 
 end

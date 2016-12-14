@@ -15,4 +15,10 @@ class FilterSubscription < ActiveRecord::Base
     filter.xid
   end
 
+  def reset_filter!
+    filter.update_attributes!({
+      xid: filter.new_on_chain_filter
+    })
+  end
+
 end
