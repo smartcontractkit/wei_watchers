@@ -8,13 +8,13 @@ describe SubscriberClient, type: :model do
     let(:body) { {}.to_json }
 
     before do
-      expect(HTTParty).to receive(:post)
+      expect(SubscriberClient).to receive(:post)
         .with("#{subscriber.notification_url}/account_balances", {
           basic_auth: {
             password: subscriber.notifier_key,
             username: subscriber.notifier_id,
           },
-          body: params
+          body: params,
         })
         .and_return(response)
     end
@@ -47,7 +47,7 @@ describe SubscriberClient, type: :model do
     let(:response) { double success?: success, body: body }
 
     before do
-      expect(HTTParty).to receive(:post)
+      expect(SubscriberClient).to receive(:post)
         .with("#{subscriber.notification_url}/event_logs", {
           basic_auth: {
             password: subscriber.notifier_key,

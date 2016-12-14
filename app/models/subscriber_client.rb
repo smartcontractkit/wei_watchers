@@ -1,5 +1,7 @@
 class SubscriberClient
 
+  include HttpClient
+
   def self.account_balance(subscriber_id, params)
     subscriber = Subscriber.find(subscriber_id)
     new(subscriber).notify(params)
@@ -25,7 +27,8 @@ class SubscriberClient
   attr_reader :subscriber
 
   def check_post_success(path, body)
-    response = post path, body
+    url = "#{subscriber.notification_url}#{path}"
+    response = post url, body
 
     unless response.success?
       json = JSON.parse(response.body)
@@ -33,14 +36,11 @@ class SubscriberClient
     end
   end
 
-  def post(path, body)
-    HTTParty.post("#{subscriber.notification_url}#{path}", {
-      basic_auth: {
-        password: subscriber.notifier_key,
-        username: subscriber.notifier_id,
-      },
-      body: body
-    })
+  def http_client_auth_params
+    {
+      password: subscriber.notifier_key,
+      username: subscriber.notifier_id,
+    }
   end
 
 end

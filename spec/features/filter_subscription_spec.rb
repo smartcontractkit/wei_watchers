@@ -36,7 +36,7 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
     }.by(+1)
 
     event_log = EventLog.last
-    expect(HTTParty).to receive(:post)
+    expect(SubscriberClient).to receive(:post)
       .with("#{subscriber.notification_url}/event_logs", {
         basic_auth: {
           password: subscriber.notifier_key,

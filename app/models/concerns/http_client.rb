@@ -16,7 +16,7 @@ module HttpClient
       basic_auth: http_client_auth_params,
       query: options,
       headers: headers
-    }).body
+    }.compact)
   end
 
   def post(path, options = {})
@@ -24,7 +24,7 @@ module HttpClient
       basic_auth: http_client_auth_params,
       body: options,
       headers: headers
-    }).body
+    }.compact)
   end
 
   def delete(path, options = {})
@@ -32,15 +32,15 @@ module HttpClient
       basic_auth: http_client_auth_params,
       body: options,
       headers: headers
-    }).body
+    }.compact)
   end
 
   def json_get(path, options = {})
-    JSON.parse get(path, options)
+    JSON.parse get(path, options).body
   end
 
   def json_post(path, options = {})
-    JSON.parse post(path, options)
+    JSON.parse post(path, options).body
   end
 
   def hashie_get(path, options = {})
@@ -56,7 +56,7 @@ module HttpClient
   end
 
   def headers
-    {}
+    nil
   end
 
   def http_client_auth_params
