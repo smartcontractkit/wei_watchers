@@ -21,7 +21,7 @@ describe Filter do
     it "creates a filter on the blockchain and saves its ID" do
       expect_any_instance_of(EthereumClient).to receive(:create_filter)
         .with({
-          account: account.address,
+          address: account.address,
           fromBlock: nil,
           toBlock: nil,
           topics: [],
