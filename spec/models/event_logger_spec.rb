@@ -1,7 +1,8 @@
 describe EventLogger, type: :model do
 
   describe ".perform" do
-    let(:filter) { factory_create :filter }
+    let(:subscription_filter) { factory_create :filter_subscription }
+    let(:filter) { subscription_filter.filter }
     let(:eth) { EthereumClient.new }
     let(:account) { factory_create :account }
     let(:address) { account.address }

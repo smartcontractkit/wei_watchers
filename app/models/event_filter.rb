@@ -6,4 +6,13 @@ class EventFilter < ActiveRecord::Base
   validates :event_log, presence: true
   validates :filter, presence: true
 
+  after_create :log_event_with_subscriber
+
+
+  private
+
+  def log_event_with_subscriber
+    filter.subscriber.event_log event_log_id
+  end
+
 end
