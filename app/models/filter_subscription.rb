@@ -13,7 +13,7 @@ class FilterSubscription < ActiveRecord::Base
 
   def self.reset_current_filters
     current.pluck(:id).each do |id|
-      find(id).reset_filter!
+      FilterReseter.perform(id)
     end
   end
 
@@ -21,10 +21,5 @@ class FilterSubscription < ActiveRecord::Base
     filter.xid
   end
 
-  def reset_filter!
-    filter.update_attributes!({
-      xid: filter.new_on_chain_filter
-    })
-  end
 
 end
