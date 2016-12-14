@@ -20,7 +20,7 @@ class FilterCheck
 
   def perform
     new_logs.each do |log|
-      EventLogger.perform(log)
+      EventLogger.delay.perform(filter.id, log)
     end
   end
 

@@ -1,15 +1,17 @@
 class EventLogger
 
-  def self.perform(params)
-    new(params.with_indifferent_access).perform
+  def self.perform(filter_id, params)
+    filter = Filter.find(filter_id)
+    new(filter, params.with_indifferent_access).perform
   end
 
-  def initialize(params)
+  def initialize(filter, params)
+    @filter = filter
     @params = params
   end
 
   def perform
-    EventLog.create!({
+    filter.event_logs.create!({
       account: account,
       block_hash: block_hash,
       block_number: block_number,
@@ -24,7 +26,7 @@ class EventLogger
 
   private
 
-  attr_reader :params
+  attr_reader :filter, :params
 
   def account
     Account.find_or_create_by(address: params[:address])

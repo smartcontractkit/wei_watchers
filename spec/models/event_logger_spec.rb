@@ -1,6 +1,7 @@
 describe EventLogger, type: :model do
 
   describe ".perform" do
+    let(:filter) { factory_create :filter }
     let(:eth) { EthereumClient.new }
     let(:account) { factory_create :account }
     let(:address) { account.address }
@@ -26,7 +27,7 @@ describe EventLogger, type: :model do
     end
 
     it "parses the hex values from Ethereum" do
-      event = EventLogger.perform(params)
+      event = EventLogger.perform(filter.id, params)
 
       expect(event.account).to eq(account)
       expect(event.block_hash).to eq(block_hash)
@@ -38,12 +39,20 @@ describe EventLogger, type: :model do
       expect(event.transaction_index).to eq(transaction_index)
     end
 
+    it "associates the new event with the filter passed in" do
+      expect {
+        EventLogger.perform(filter.id, params)
+      }.to change {
+        filter.reload.event_logs.count
+      }.by(+1)
+    end
+
     context "when the account has not been recorded yet" do
       let(:address) { ethereum_address }
 
       it "creates a new account record" do
         expect {
-          EventLogger.perform(params)
+          EventLogger.perform(filter.id, params)
         }.to change {
           Account.count
         }.by(+1)
@@ -58,7 +67,7 @@ describe EventLogger, type: :model do
 
       it "creates a new account record" do
         expect {
-          EventLogger.perform(params)
+          EventLogger.perform(filter.id, params)
         }.to change {
           EventTopic.count
         }.by(topics.size)

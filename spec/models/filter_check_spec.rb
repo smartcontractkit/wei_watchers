@@ -10,8 +10,8 @@ describe FilterCheck, type: :model do
         .with(filter.xid)
         .and_return([raw_event_log])
 
-      expect(EventLogger).to receive(:perform)
-        .with(raw_event_log)
+      expect(EventLogger).to receive_message_chain(:delay, :perform)
+        .with(filter.id, raw_event_log)
 
       FilterCheck.perform subscription.id
     end
