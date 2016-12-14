@@ -9,6 +9,8 @@ class FilterSubscription < ActiveRecord::Base
   validates :filter, presence: true
   validates_associated :filter
 
+  scope :current, -> { where "end_at >= now()" }
+
   def xid
     filter.xid
   end
