@@ -2,7 +2,7 @@ class BalanceCheck
 
   def self.schedule_checks
     BalanceSubscription.current.pluck(:account_id).uniq.each do |account_id|
-      BalanceCheck.delay.perform account_id
+      delay.perform account_id
     end
   end
 

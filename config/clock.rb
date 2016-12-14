@@ -7,5 +7,6 @@ module Clockwork
     system "rails runner '#{job}'"
   end
 
+  every(1.minute, 'FilterCheck.schedule_checks')
   every(1.minute, 'BalanceCheck.schedule_checks')
 end
