@@ -41,4 +41,23 @@ describe Subscriber, type: :model do
       Subscriber.update_balance subscriber.id, params
     end
   end
+
+  describe "#event_log" do
+    let(:subscriber) { factory_create :subscriber }
+    let(:client) { instance_double SubscriberClient }
+    let(:event_log_id) { SecureRandom.hex }
+
+    before do
+      allow(SubscriberClient).to receive(:new)
+        .with(subscriber)
+        .and_return(client)
+    end
+
+    it "creates a job to log an event" do
+      expect(client).to receive_message_chain(:delay, :event_log)
+        .with(event_log_id)
+
+      subscriber.event_log(event_log_id)
+    end
+  end
 end

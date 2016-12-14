@@ -17,6 +17,10 @@ class Subscriber < ActiveRecord::Base
     SubscriberClient.delay.account_balance subscriber_id, info
   end
 
+  def event_log(event_log_id)
+    client.delay.event_log event_log_id
+  end
+
 
   private
 
@@ -25,6 +29,10 @@ class Subscriber < ActiveRecord::Base
     self.api_key ||= SecureRandom.urlsafe_base64(64)
     self.notifier_id ||= SecureRandom.urlsafe_base64(64)
     self.notifier_key ||= SecureRandom.urlsafe_base64(64)
+  end
+
+  def client
+    @client ||= SubscriberClient.new(self)
   end
 
 end
