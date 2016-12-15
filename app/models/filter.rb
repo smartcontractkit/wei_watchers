@@ -4,7 +4,7 @@ class Filter < ActiveRecord::Base
 
   belongs_to :account
   has_many :event_filters, inverse_of: :filter
-  has_many :event_logs, through: :event_filters
+  has_many :events, through: :event_filters
   has_many :topics, through: :filter_topics
   has_one :filter_subscription, inverse_of: :filter
   has_many :filter_topics, inverse_of: :filter

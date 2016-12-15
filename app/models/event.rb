@@ -1,9 +1,9 @@
-class EventLog < ActiveRecord::Base
+class Event < ActiveRecord::Base
 
   belongs_to :account
-  has_many :event_filters, inverse_of: :event_log
-  has_many :event_log_topics, inverse_of: :event_log
-  has_many :topics, through: :event_log_topics
+  has_many :event_filters, inverse_of: :event
+  has_many :event_topics, inverse_of: :event
+  has_many :topics, through: :event_topics
   has_many :filters, through: :event_filters
 
   validates :account, presence: true

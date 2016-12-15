@@ -44,7 +44,7 @@ describe EventLogger, type: :model do
       expect {
         EventLogger.perform(filter.id, params)
       }.to change {
-        filter.reload.event_logs.count
+        filter.reload.events.count
       }.by(+1)
     end
 

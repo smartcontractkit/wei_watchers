@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161215195711) do
+ActiveRecord::Schema.define(version: 20161215205900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,20 +48,20 @@ ActiveRecord::Schema.define(version: 20161215195711) do
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "event_filters", force: :cascade do |t|
-    t.integer  "event_log_id"
+    t.integer  "event_id"
     t.integer  "filter_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "event_log_topics", force: :cascade do |t|
+  create_table "event_topics", force: :cascade do |t|
     t.integer  "topic_id"
-    t.integer  "event_log_id"
+    t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "event_logs", force: :cascade do |t|
+  create_table "events", force: :cascade do |t|
     t.integer  "account_id"
     t.string   "block_hash"
     t.integer  "block_number"

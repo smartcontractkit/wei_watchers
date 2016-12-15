@@ -2,7 +2,7 @@ class FilterSubscription < ActiveRecord::Base
 
   belongs_to :filter, inverse_of: :filter_subscription
   belongs_to :subscriber, inverse_of: :filter_subscriptions
-  has_many :event_logs, through: :filter
+  has_many :events, through: :filter
 
   validates :subscriber, presence: true
   validates :end_at, presence: true

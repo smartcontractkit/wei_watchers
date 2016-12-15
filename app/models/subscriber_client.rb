@@ -15,10 +15,10 @@ class SubscriberClient
     check_post_success '/account_balances', body
   end
 
-  def event_log(id)
-    event = EventLog.find(id)
-    serializer = EventLogSerializer.new(event)
-    check_post_success '/event_logs', serializer.attributes
+  def event(id)
+    event = Event.find(id)
+    serializer = EventSerializer.new(event)
+    check_post_success '/events', serializer.attributes
   end
 
 

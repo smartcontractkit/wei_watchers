@@ -32,7 +32,7 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
       complete_all_current_background_jobs # generates job to create event
       complete_all_current_background_jobs # runs job create event
     }.to change {
-      subscription.reload.event_logs.count
+      subscription.reload.events.count
     }.by(+1)
   end
 
@@ -40,7 +40,7 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
     expect {
       check_filter_subscriptions
     }.not_to change {
-      subscription.reload.event_logs.count
+      subscription.reload.events.count
     }
   end
 
@@ -50,7 +50,7 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
         reset_filter_subscriptions
         check_filter_subscriptions
       }.not_to change {
-        subscription.reload.event_logs.count
+        subscription.reload.events.count
       }
     end
   end
@@ -69,7 +69,7 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
         reset_filter_subscriptions
         check_filter_subscriptions
       }.to change {
-        subscription.reload.event_logs.count
+        subscription.reload.events.count
       }.by(+1)
     end
   end

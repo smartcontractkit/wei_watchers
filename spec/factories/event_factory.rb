@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  factory :event_log do
+  factory :event do
     association :account
     block_hash { "0x#{ SecureRandom.hex 32 }" }
     block_number { rand(1_000_000) }

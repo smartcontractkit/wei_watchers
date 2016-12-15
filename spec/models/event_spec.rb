@@ -1,4 +1,4 @@
-describe EventLog, type: :model do
+describe Event, type: :model do
   describe "validations" do
     it { is_expected.to have_valid(:account).when(factory_create(:account)) }
     it { is_expected.not_to have_valid(:account).when(nil) }
@@ -21,8 +21,8 @@ describe EventLog, type: :model do
     it { is_expected.not_to have_valid(:transaction_index).when(-1, nil) }
 
     context "when the block number and log number are the same" do
-      let(:old) { factory_create :event_log }
-      subject { EventLog.new block_number: old.block_number }
+      let(:old) { factory_create :event }
+      subject { Event.new block_number: old.block_number }
 
       it { is_expected.not_to have_valid(:log_index).when(old.log_index) }
     end

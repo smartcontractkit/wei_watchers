@@ -1,9 +1,9 @@
 class EventFilter < ActiveRecord::Base
 
-  belongs_to :event_log, inverse_of: :event_filters
+  belongs_to :event, inverse_of: :event_filters
   belongs_to :filter, inverse_of: :event_filters
 
-  validates :event_log, presence: true, uniqueness: { scope: [:filter] }
+  validates :event, presence: true, uniqueness: { scope: [:filter] }
   validates :filter, presence: true
 
   after_create :log_event_with_subscriber
@@ -12,7 +12,7 @@ class EventFilter < ActiveRecord::Base
   private
 
   def log_event_with_subscriber
-    filter.subscriber.event_log event_log_id
+    filter.subscriber.event event_id
   end
 
 end

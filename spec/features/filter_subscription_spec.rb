@@ -30,25 +30,25 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
     expect {
       check_filter_subscriptions
     }.to change {
-      subscription.reload.event_logs.count
+      subscription.reload.events.count
     }.by(+1)
 
-    event_log = EventLog.last
+    event = Event.last
     expect(SubscriberClient).to receive(:post)
-      .with("#{subscriber.notification_url}/event_logs", {
+      .with("#{subscriber.notification_url}/events", {
         basic_auth: {
           password: subscriber.notifier_key,
           username: subscriber.notifier_id,
         },
         body: {
-          address: event_log.address,
-          blockHash: event_log.block_hash,
-          blockNumber: event_log.block_number,
-          data: event_log.data,
-          logIndex: event_log.log_index,
-          topics: event_log.topic_ids,
-          transactionHash: event_log.transaction_hash,
-          transactionIndex: event_log.transaction_index,
+          address: event.address,
+          blockHash: event.block_hash,
+          blockNumber: event.block_number,
+          data: event.data,
+          logIndex: event.log_index,
+          topics: event.topic_ids,
+          transactionHash: event.transaction_hash,
+          transactionIndex: event.transaction_index,
         }
       }).and_return(http_response)
     complete_all_current_background_jobs # runs job to update subscriber

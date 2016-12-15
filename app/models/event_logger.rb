@@ -11,7 +11,7 @@ class EventLogger
   end
 
   def perform
-    filter.event_logs.create({
+    filter.events.create({
       account: account,
       block_hash: block_hash,
       block_number: block_number,

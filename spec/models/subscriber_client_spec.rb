@@ -41,27 +41,27 @@ describe SubscriberClient, type: :model do
     end
   end
 
-  describe "#event_log" do
-    let(:event_log) { factory_create :event_log }
+  describe "#event" do
+    let(:event) { factory_create :event }
     let(:body) { {}.to_json }
     let(:response) { double success?: success, body: body }
 
     before do
       expect(SubscriberClient).to receive(:post)
-        .with("#{subscriber.notification_url}/event_logs", {
+        .with("#{subscriber.notification_url}/events", {
           basic_auth: {
             password: subscriber.notifier_key,
             username: subscriber.notifier_id,
           },
           body: {
-            address: event_log.address,
-            blockHash: event_log.block_hash,
-            blockNumber: event_log.block_number,
-            data: event_log.data,
-            logIndex: event_log.log_index,
-            topics: event_log.topic_ids,
-            transactionHash: event_log.transaction_hash,
-            transactionIndex: event_log.transaction_index,
+            address: event.address,
+            blockHash: event.block_hash,
+            blockNumber: event.block_number,
+            data: event.data,
+            logIndex: event.log_index,
+            topics: event.topic_ids,
+            transactionHash: event.transaction_hash,
+            transactionIndex: event.transaction_index,
           }
         })
         .and_return(response)
@@ -72,7 +72,7 @@ describe SubscriberClient, type: :model do
 
       it "posts to the subscriber's notification URL" do
         expect {
-          client.event_log(event_log.id)
+          client.event(event.id)
         }.not_to raise_error
       end
     end
@@ -83,7 +83,7 @@ describe SubscriberClient, type: :model do
 
       it "raises an error" do
         expect {
-          client.event_log(event_log.id)
+          client.event(event.id)
         }.to raise_error 'Notification failure: ["all of the errors"]'
       end
     end

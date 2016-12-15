@@ -1,4 +1,4 @@
-class EventLogSerializer < ActiveModel::Serializer
+class EventSerializer < ActiveModel::Serializer
 
   attributes :address, :blockHash, :blockNumber, :data,
     :logIndex, :topics, :transactionHash, :transactionIndex

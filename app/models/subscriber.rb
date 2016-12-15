@@ -17,8 +17,8 @@ class Subscriber < ActiveRecord::Base
     SubscriberClient.delay.account_balance subscriber_id, info
   end
 
-  def event_log(event_log_id)
-    client.delay.event_log event_log_id
+  def event(event_id)
+    client.delay.event event_id
   end
 
 
