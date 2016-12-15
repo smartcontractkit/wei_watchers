@@ -1,4 +1,4 @@
-class FiltersController < ApiController
+class FilterSubscriptionsController < ApiController
 
   def create
     subscription = build_filter_subscription

@@ -15,7 +15,7 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
   end
 
   before do
-    post('/api/filters',
+    post('/api/filter_subscriptions',
          {account: contract_address, topics: [topic], endAt: 1.year.from_now.to_i},
          basic_auth_login(subscriber, {}))
 
