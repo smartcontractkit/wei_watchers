@@ -9,7 +9,7 @@ class FilterSubscription < ActiveRecord::Base
   validates :filter, presence: true
   validates_associated :filter
 
-  scope :current, -> { where "end_at >= now()" }
+  scope :current, -> { where "end_at >= ?", Time.now }
 
   def self.reset_current_filters
     current.pluck(:id).each do |id|
