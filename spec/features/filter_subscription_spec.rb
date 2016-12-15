@@ -28,9 +28,7 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
     expect(subscription).to be_present
 
     expect {
-      FilterCheck.schedule_checks
-      complete_all_current_background_jobs # generates job to create event
-      complete_all_current_background_jobs # runs job create event
+      check_filter_subscriptions
     }.to change {
       subscription.reload.event_logs.count
     }.by(+1)
