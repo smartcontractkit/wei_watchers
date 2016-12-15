@@ -6,6 +6,13 @@ describe EventFilter, type: :model do
 
     it { is_expected.to have_valid(:filter).when(factory_create(:filter)) }
     it { is_expected.not_to have_valid(:filter).when(nil) }
+
+    context "when the event has already been recorded with that filter" do
+      let(:old) { factory_create :event_filter }
+      subject { EventFilter.new filter: old.filter }
+
+      it { is_expected.not_to have_valid(:event_log).when(old.event_log) }
+    end
   end
 
   describe "on create" do
