@@ -19,6 +19,13 @@ describe EventLog, type: :model do
 
     it { is_expected.to have_valid(:transaction_index).when(0, 1) }
     it { is_expected.not_to have_valid(:transaction_index).when(-1, nil) }
+
+    context "when the block number and log number are the same" do
+      let(:old) { factory_create :event_log }
+      subject { EventLog.new block_number: old.block_number }
+
+      it { is_expected.not_to have_valid(:log_index).when(old.log_index) }
+    end
   end
 
 end
