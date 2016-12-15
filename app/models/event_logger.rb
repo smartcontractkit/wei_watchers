@@ -17,7 +17,7 @@ class EventLogger
       block_number: block_number,
       data: data,
       log_index: log_index,
-      event_topics: event_topics,
+      topics: topics,
       transaction_hash: transaction_hash,
       transaction_index: transaction_index,
     })
@@ -48,9 +48,9 @@ class EventLogger
     ethereum.hex_to_int params[:logIndex]
   end
 
-  def event_topics
+  def topics
     params[:topics].map do |topic|
-      EventTopic.find_or_create_by topic: topic
+      Topic.find_or_create_by topic: topic
     end
   end
 

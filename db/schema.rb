@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161213231804) do
+ActiveRecord::Schema.define(version: 20161215195711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 20161213231804) do
   end
 
   create_table "event_log_topics", force: :cascade do |t|
-    t.integer  "event_topic_id"
+    t.integer  "topic_id"
     t.integer  "event_log_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -73,12 +73,6 @@ ActiveRecord::Schema.define(version: 20161213231804) do
     t.datetime "updated_at"
   end
 
-  create_table "event_topics", force: :cascade do |t|
-    t.string   "topic"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "filter_subscriptions", force: :cascade do |t|
     t.integer  "subscriber_id"
     t.integer  "filter_id"
@@ -88,7 +82,7 @@ ActiveRecord::Schema.define(version: 20161213231804) do
   end
 
   create_table "filter_topics", force: :cascade do |t|
-    t.integer  "event_topic_id"
+    t.integer  "topic_id"
     t.integer  "filter_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -112,6 +106,12 @@ ActiveRecord::Schema.define(version: 20161213231804) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "api_id"
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string   "topic"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

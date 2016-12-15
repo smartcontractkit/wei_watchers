@@ -5,7 +5,7 @@ class Filter < ActiveRecord::Base
   belongs_to :account
   has_many :event_filters, inverse_of: :filter
   has_many :event_logs, through: :event_filters
-  has_many :event_topics, through: :filter_topics
+  has_many :topics, through: :filter_topics
   has_one :filter_subscription, inverse_of: :filter
   has_many :filter_topics, inverse_of: :filter
   has_one :subscriber, through: :filter_subscription
@@ -22,8 +22,8 @@ class Filter < ActiveRecord::Base
     account.address if account.present?
   end
 
-  def topics
-    event_topics.map(&:topic)
+  def topic_ids
+    topics.map(&:topic)
   end
 
   def new_on_chain_filter(options = {})
@@ -31,7 +31,7 @@ class Filter < ActiveRecord::Base
       address: address,
       fromBlock: from_block,
       toBlock: to_block,
-      topics: topics,
+      topics: topic_ids,
     }.merge(options))
   end
 

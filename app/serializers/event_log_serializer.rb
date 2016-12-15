@@ -15,6 +15,10 @@ class EventLogSerializer < ActiveModel::Serializer
     object.log_index
   end
 
+  def topics
+    object.topic_ids
+  end
+
   def transactionHash
     object.transaction_hash
   end

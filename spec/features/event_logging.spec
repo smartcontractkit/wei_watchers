@@ -32,7 +32,7 @@ describe "logging events" do
 
     expect(logs.size).to eq(2)
     topic = '0x' + Eth::Utils.keccak256('Updated(bytes32)').unpack('H*')[0]
-    good_logs = logs.select {|log| log.topics.include? topic}
+    good_logs = logs.select {|log| log.topic_ids.include? topic}
     expect(good_logs.size).to eq(1)
     logged_string = ethereum.hex_to_utf8 good_logs[0].data
 

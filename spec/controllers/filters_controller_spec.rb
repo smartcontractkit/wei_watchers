@@ -31,21 +31,21 @@ describe FiltersController, type: :controller do
       end
 
       context "when topics are included" do
-        let!(:old_topic) { factory_create :event_topic }
+        let!(:old_topic) { factory_create :topic }
         let(:topics) { [new_filter_topic, old_topic.topic] }
 
         it "creates new topics for the new topic records" do
           expect {
             post :create, filter_params
           }.to change {
-            EventTopic.count
+            Topic.count
           }.by(+1)
         end
 
         it "associates with the old topics" do
           post :create, filter_params
 
-          expect(Filter.last.event_topics).to include(old_topic)
+          expect(Filter.last.topics).to include(old_topic)
         end
       end
     end

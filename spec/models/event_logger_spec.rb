@@ -35,7 +35,7 @@ describe EventLogger, type: :model do
       expect(event.block_number).to eq(block_number)
       expect(event.data).to eq(data)
       expect(event.log_index).to eq(log_index)
-      expect(event.topics).to eq(topics)
+      expect(event.topic_ids).to eq(topics)
       expect(event.transaction_hash).to eq(transaction_hash)
       expect(event.transaction_index).to eq(transaction_index)
     end
@@ -70,10 +70,10 @@ describe EventLogger, type: :model do
         expect {
           EventLogger.perform(filter.id, params)
         }.to change {
-          EventTopic.count
+          Topic.count
         }.by(topics.size)
 
-        expect(EventTopic.last(topics.size).map(&:topic)).to eq(topics)
+        expect(Topic.last(topics.size).map(&:topic)).to eq(topics)
       end
     end
   end

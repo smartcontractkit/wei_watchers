@@ -59,7 +59,7 @@ describe SubscriberClient, type: :model do
             blockNumber: event_log.block_number,
             data: event_log.data,
             logIndex: event_log.log_index,
-            topics: event_log.topics,
+            topics: event_log.topic_ids,
             transactionHash: event_log.transaction_hash,
             transactionIndex: event_log.transaction_index,
           }
