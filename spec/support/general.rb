@@ -65,14 +65,14 @@ module SpecHelpers
     end
   end
 
-  def check_filter_subscriptions
+  def check_event_subscriptions
     FilterCheck.schedule_checks
     complete_all_current_background_jobs # generates job to create event
     complete_all_current_background_jobs # runs job create event
   end
 
-  def reset_filter_subscriptions
-    FilterSubscription.reset_current_filters
+  def reset_event_subscriptions
+    EventSubscription.reset_current_filters
     complete_all_current_background_jobs # resets all current filters
   end
 

@@ -13,7 +13,7 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
     })
     contract_address = get_contract_address(tx.hash)
 
-    post('/api/filter_subscriptions',
+    post('/api/event_subscriptions',
          {account: contract_address, topics: [topic], endAt: 1.year.from_now.to_i},
          basic_auth_login(subscriber, {}))
 
@@ -24,11 +24,11 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
     })
     wait_for_ethereum_confirmation update_tx.hash
 
-    subscription = subscriber.reload.filter_subscriptions.last
+    subscription = subscriber.reload.event_subscriptions.last
     expect(subscription).to be_present
 
     expect {
-      check_filter_subscriptions
+      check_event_subscriptions
     }.to change {
       subscription.reload.events.count
     }.by(+1)

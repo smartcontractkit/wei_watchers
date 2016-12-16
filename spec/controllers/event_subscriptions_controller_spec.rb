@@ -1,4 +1,4 @@
-describe FilterSubscriptionsController, type: :controller do
+describe EventSubscriptionsController, type: :controller do
 
   describe "#create" do
     before do

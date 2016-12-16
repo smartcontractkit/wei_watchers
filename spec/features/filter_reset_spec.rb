@@ -2,7 +2,7 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
 
   let(:subscriber) { factory_create :subscriber }
   let(:topic) { "0x#{bin_to_hex(Eth::Utils.keccak256 'Updated(bytes32)')}" }
-  let(:subscription) { subscriber.reload.filter_subscriptions.last }
+  let(:subscription) { subscriber.reload.event_subscriptions.last }
   let(:oracle_data) { compiled_solidity('Oracle') }
   let(:write_address) { oracle_data['functionHashes']['update(bytes32)'] }
   let(:update_message) { 'Hi Mom!' }
@@ -15,7 +15,7 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
   end
 
   before do
-    post('/api/filter_subscriptions',
+    post('/api/event_subscriptions',
          {account: contract_address, topics: [topic], endAt: 1.year.from_now.to_i},
          basic_auth_login(subscriber, {}))
 
@@ -38,7 +38,7 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
 
   it "does not create duplicate events when run again" do
     expect {
-      check_filter_subscriptions
+      check_event_subscriptions
     }.not_to change {
       subscription.reload.events.count
     }
@@ -47,8 +47,8 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
   context "when reset and run again" do
     it "does not create duplicate events" do
       expect {
-        reset_filter_subscriptions
-        check_filter_subscriptions
+        reset_event_subscriptions
+        check_event_subscriptions
       }.not_to change {
         subscription.reload.events.count
       }
@@ -66,8 +66,8 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
 
     it "does not create duplicate events" do
       expect {
-        reset_filter_subscriptions
-        check_filter_subscriptions
+        reset_event_subscriptions
+        check_event_subscriptions
       }.to change {
         subscription.reload.events.count
       }.by(+1)

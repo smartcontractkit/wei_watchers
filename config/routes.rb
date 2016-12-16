@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       post 'send_raw_transaction' => 'ethereum#send_raw_transaction'
     end
     resources :balance_subscriptions, only: [:create]
-    resources :filter_subscriptions, only: [:create]
+    resources :event_subscriptions, only: [:create]
     resources :subscriptions, only: [:create], controller: 'balance_subscriptions'
   end
 end

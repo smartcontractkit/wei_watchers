@@ -3,13 +3,13 @@ class FilterCheck
   include HasEthereumClient
 
   def self.schedule_checks
-    FilterSubscription.current.pluck(:id).uniq.each do |subscription_id|
+    EventSubscription.current.pluck(:id).uniq.each do |subscription_id|
       delay.perform subscription_id
     end
   end
 
   def self.perform(id)
-    subscription = FilterSubscription.find(id)
+    subscription = EventSubscription.find(id)
     new(subscription).perform
   end
 

@@ -1,7 +1,7 @@
-class FilterSubscription < ActiveRecord::Base
+class EventSubscription < ActiveRecord::Base
 
-  belongs_to :filter, inverse_of: :filter_subscription
-  belongs_to :subscriber, inverse_of: :filter_subscriptions
+  belongs_to :filter, inverse_of: :event_subscription
+  belongs_to :subscriber, inverse_of: :event_subscriptions
   has_many :events, through: :filter
 
   validates :subscriber, presence: true

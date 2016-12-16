@@ -3,7 +3,7 @@ class FilterReseter
   include HasEthereumClient
 
   def self.perform(subscription_id)
-    subscription = FilterSubscription.find subscription_id
+    subscription = EventSubscription.find subscription_id
     new(subscription).perform
   end
 

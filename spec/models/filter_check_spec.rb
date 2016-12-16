@@ -1,7 +1,7 @@
 describe FilterCheck, type: :model do
 
   describe ".perform" do
-    let(:subscription) { factory_create :filter_subscription }
+    let(:subscription) { factory_create :event_subscription }
     let(:filter) { subscription.filter }
     let(:raw_event) { double :raw_event }
 

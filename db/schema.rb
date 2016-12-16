@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216062140) do
+ActiveRecord::Schema.define(version: 20161216064258) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,14 @@ ActiveRecord::Schema.define(version: 20161216062140) do
     t.datetime "updated_at"
   end
 
+  create_table "event_subscriptions", force: :cascade do |t|
+    t.integer  "subscriber_id"
+    t.integer  "filter_id"
+    t.datetime "end_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "event_topics", force: :cascade do |t|
     t.integer  "topic_id"
     t.integer  "event_id"
@@ -69,14 +77,6 @@ ActiveRecord::Schema.define(version: 20161216062140) do
     t.integer  "log_index"
     t.string   "transaction_hash"
     t.integer  "transaction_index"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "filter_subscriptions", force: :cascade do |t|
-    t.integer  "subscriber_id"
-    t.integer  "filter_id"
-    t.datetime "end_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -4,6 +4,6 @@ FactoryGirl.define do
   end
 
   factory :filter_with_subscriber, parent: :filter do
-    filter_subscription
+    event_subscription
   end
 end

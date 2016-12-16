@@ -17,13 +17,13 @@ describe EventSubscriptionNotification, type: :model do
 
   describe "on create" do
     let(:event) { factory_create :event }
-    let(:filter_subscription) { factory_create :filter_subscription }
-    let(:filter) { filter_subscription.filter }
+    let(:event_subscription) { factory_create :event_subscription }
+    let(:filter) { event_subscription.filter }
     let(:event_filter) { EventSubscriptionNotification.new event: event, filter: filter }
 
     it "generates a notification for the filter's subscriber" do
       expect_any_instance_of(Subscriber).to receive(:event) do |subscriber, params|
-        expect(subscriber).to eq(filter_subscription.subscriber)
+        expect(subscriber).to eq(event_subscription.subscriber)
         expect(params).to eq(event.id)
       end
 

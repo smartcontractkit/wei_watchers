@@ -9,7 +9,7 @@ describe FilterReseter, type: :model do
         .and_return(old_events)
     end
 
-    let(:subscription) { factory_create :filter_subscription }
+    let(:subscription) { factory_create :event_subscription }
     let(:filter) { subscription.filter }
     let(:old_events) { [] }
 

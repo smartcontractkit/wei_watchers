@@ -1,7 +1,7 @@
-class FilterSubscriptionsController < ApiController
+class EventSubscriptionsController < ApiController
 
   def create
-    subscription = build_filter_subscription
+    subscription = build_event_subscription
     if subscription.save
       success_response id: subscription.xid
     else
@@ -12,8 +12,8 @@ class FilterSubscriptionsController < ApiController
 
   private
 
-  def build_filter_subscription
-    subscriber.filter_subscriptions.build({
+  def build_event_subscription
+    subscriber.event_subscriptions.build({
       end_at: Time.at(params[:endAt].to_i),
       filter: Filter.new(filter_params),
     })
