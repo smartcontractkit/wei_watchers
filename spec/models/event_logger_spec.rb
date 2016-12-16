@@ -2,7 +2,7 @@ describe EventLogger, type: :model do
 
   describe ".perform" do
     let(:subscription_filter) { factory_create :event_subscription }
-    let(:filter) { subscription_filter.filter }
+    let(:filter_config) { subscription_filter.filter_config }
     let(:eth) { EthereumClient.new }
     let(:account) { factory_create :account }
     let(:address) { account.address }
@@ -28,7 +28,7 @@ describe EventLogger, type: :model do
     end
 
     it "parses the hex values from Ethereum" do
-      event = EventLogger.perform(filter.id, params)
+      event = EventLogger.perform(filter_config.id, params)
 
       expect(event.account).to eq(account)
       expect(event.block_hash).to eq(block_hash)
@@ -42,9 +42,9 @@ describe EventLogger, type: :model do
 
     it "associates the new event with the filter passed in" do
       expect {
-        EventLogger.perform(filter.id, params)
+        EventLogger.perform(filter_config.id, params)
       }.to change {
-        filter.reload.events.count
+        filter_config.reload.events.count
       }.by(+1)
     end
 
@@ -53,7 +53,7 @@ describe EventLogger, type: :model do
 
       it "creates a new account record" do
         expect {
-          EventLogger.perform(filter.id, params)
+          EventLogger.perform(filter_config.id, params)
         }.to change {
           Account.count
         }.by(+1)
@@ -68,7 +68,7 @@ describe EventLogger, type: :model do
 
       it "creates a new account record" do
         expect {
-          EventLogger.perform(filter.id, params)
+          EventLogger.perform(filter_config.id, params)
         }.to change {
           Topic.count
         }.by(topics.size)

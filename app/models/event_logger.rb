@@ -1,7 +1,7 @@
 class EventLogger
 
   def self.perform(filter_id, params)
-    filter = Filter.find(filter_id)
+    filter = FilterConfig.find(filter_id)
     new(filter, params.with_indifferent_access).perform
   end
 

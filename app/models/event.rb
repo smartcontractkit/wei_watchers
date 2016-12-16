@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
   has_many :event_subscription_notifications, inverse_of: :event
   has_many :event_topics, inverse_of: :event
   has_many :topics, through: :event_topics
-  has_many :filters, through: :event_filters
+  has_many :filter_configs, through: :event_filters
 
   validates :account, presence: true
   validates :block_hash, format: /\A0x[0-9a-f]{64}\z/

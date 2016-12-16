@@ -1,10 +1,10 @@
 class EventSubscriptionNotification < ActiveRecord::Base
 
   belongs_to :event, inverse_of: :event_subscription_notifications
-  belongs_to :filter, inverse_of: :event_subscription_notifications
+  belongs_to :filter_config, inverse_of: :event_subscription_notifications
 
-  validates :event, presence: true, uniqueness: { scope: [:filter] }
-  validates :filter, presence: true
+  validates :event, presence: true, uniqueness: { scope: [:filter_config] }
+  validates :filter_config, presence: true
 
   after_create :log_event_with_subscriber
 
@@ -12,7 +12,7 @@ class EventSubscriptionNotification < ActiveRecord::Base
   private
 
   def log_event_with_subscriber
-    filter.subscriber.event event_id
+    filter_config.subscriber.event event_id
   end
 
 end

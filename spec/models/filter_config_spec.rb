@@ -1,4 +1,4 @@
-describe Filter do
+describe FilterConfig do
 
   describe "validations" do
     it { is_expected.to have_valid(:account).when(factory_create(:account), nil) }
@@ -16,7 +16,7 @@ describe Filter do
   describe "on create" do
     let(:account) { factory_create :account }
     let(:filter_id) { new_filter_id }
-    let(:filter) { Filter.new account: account }
+    let(:filter_config) { FilterConfig.new account: account }
 
     it "creates a filter on the blockchain and saves its ID" do
       expect_any_instance_of(EthereumClient).to receive(:create_filter)
@@ -29,9 +29,9 @@ describe Filter do
         .and_return(filter_id)
 
       expect {
-        filter.save
+        filter_config.save
       }.to change {
-        filter.xid
+        filter_config.xid
       }.from(nil).to(filter_id)
     end
   end

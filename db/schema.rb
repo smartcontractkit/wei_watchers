@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216064258) do
+ActiveRecord::Schema.define(version: 20161216070911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,14 +49,14 @@ ActiveRecord::Schema.define(version: 20161216064258) do
 
   create_table "event_subscription_notifications", force: :cascade do |t|
     t.integer  "event_id"
-    t.integer  "filter_id"
+    t.integer  "filter_config_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "event_subscriptions", force: :cascade do |t|
     t.integer  "subscriber_id"
-    t.integer  "filter_id"
+    t.integer  "filter_config_id"
     t.datetime "end_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -81,18 +81,18 @@ ActiveRecord::Schema.define(version: 20161216064258) do
     t.datetime "updated_at"
   end
 
-  create_table "filter_topics", force: :cascade do |t|
-    t.integer  "topic_id"
-    t.integer  "filter_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "filters", force: :cascade do |t|
+  create_table "filter_configs", force: :cascade do |t|
     t.string   "xid"
     t.integer  "account_id"
     t.integer  "from_block"
     t.integer  "to_block"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "filter_topics", force: :cascade do |t|
+    t.integer  "topic_id"
+    t.integer  "filter_config_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

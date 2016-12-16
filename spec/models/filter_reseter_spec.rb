@@ -10,14 +10,14 @@ describe FilterReseter, type: :model do
     end
 
     let(:subscription) { factory_create :event_subscription }
-    let(:filter) { subscription.filter }
+    let(:filter_config) { subscription.filter_config }
     let(:old_events) { [] }
 
     it "creates a new filter ID for the filter" do
       expect {
         FilterReseter.perform(subscription.id)
       }.to change {
-        filter.reload.xid
+        filter_config.reload.xid
       }
     end
 
@@ -27,7 +27,7 @@ describe FilterReseter, type: :model do
 
       it "retries creating all past logs of the filter" do
         expect(EventLogger).to receive(:perform)
-          .with(filter.id, old_event)
+          .with(filter_config.id, old_event)
 
         FilterReseter.perform(subscription.id)
       end

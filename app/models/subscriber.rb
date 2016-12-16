@@ -3,7 +3,7 @@ class Subscriber < ActiveRecord::Base
   has_many :balance_subscriptions, inverse_of: :subscriber
   has_many :accounts, through: :balance_subscriptions
   has_many :event_subscriptions, inverse_of: :subscriber
-  has_many :filters, through: :event_subscriptions
+  has_many :filter_configs, through: :event_subscriptions
 
   validates :api_id, presence: true
   validates :api_key, presence: true

@@ -15,7 +15,7 @@ class EventSubscriptionsController < ApiController
   def build_event_subscription
     subscriber.event_subscriptions.build({
       end_at: Time.at(params[:endAt].to_i),
-      filter: Filter.new(filter_params),
+      filter_config: FilterConfig.new(filter_params),
     })
   end
 

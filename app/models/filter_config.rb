@@ -1,13 +1,13 @@
-class Filter < ActiveRecord::Base
+class FilterConfig < ActiveRecord::Base
 
   include HasEthereumClient
 
   belongs_to :account
   has_many :events, through: :event_subscription_notifications
-  has_many :event_subscription_notifications, inverse_of: :filter
+  has_many :event_subscription_notifications, inverse_of: :filter_config
   has_many :topics, through: :filter_topics
-  has_one :event_subscription, inverse_of: :filter
-  has_many :filter_topics, inverse_of: :filter
+  has_one :event_subscription, inverse_of: :filter_config
+  has_many :filter_topics, inverse_of: :filter_config
   has_one :subscriber, through: :event_subscription
 
   validates :from_block, numericality: {

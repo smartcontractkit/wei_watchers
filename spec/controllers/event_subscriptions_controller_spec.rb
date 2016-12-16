@@ -24,9 +24,9 @@ describe EventSubscriptionsController, type: :controller do
         expect {
           post :create, filter_params
         }.to change {
-          subscriber.filters.count
+          subscriber.filter_configs.count
         }.by(+1).and change {
-          Filter.count
+          FilterConfig.count
         }.by(+1)
       end
 
@@ -45,7 +45,7 @@ describe EventSubscriptionsController, type: :controller do
         it "associates with the old topics" do
           post :create, filter_params
 
-          expect(Filter.last.topics).to include(old_topic)
+          expect(FilterConfig.last.topics).to include(old_topic)
         end
       end
     end
@@ -63,7 +63,7 @@ describe EventSubscriptionsController, type: :controller do
         expect {
           post :create, filter_params
         }.not_to change {
-          Filter.count
+          FilterConfig.count
         }
       end
     end

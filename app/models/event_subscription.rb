@@ -1,13 +1,13 @@
 class EventSubscription < ActiveRecord::Base
 
-  belongs_to :filter, inverse_of: :event_subscription
+  belongs_to :filter_config, inverse_of: :event_subscription
   belongs_to :subscriber, inverse_of: :event_subscriptions
-  has_many :events, through: :filter
+  has_many :events, through: :filter_config
 
   validates :subscriber, presence: true
   validates :end_at, presence: true
-  validates :filter, presence: true
-  validates_associated :filter
+  validates :filter_config, presence: true
+  validates_associated :filter_config
 
   scope :current, -> { where "end_at >= ?", Time.now }
 
@@ -18,7 +18,7 @@ class EventSubscription < ActiveRecord::Base
   end
 
   def xid
-    filter.xid
+    filter_config.xid
   end
 
 
