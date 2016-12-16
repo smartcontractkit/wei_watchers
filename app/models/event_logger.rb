@@ -1,17 +1,17 @@
 class EventLogger
 
-  def self.perform(filter_id, params)
-    filter = FilterConfig.find(filter_id)
-    new(filter, params.with_indifferent_access).perform
+  def self.perform(subscription_id, params)
+    subscription = EventSubscription.find(subscription_id)
+    new(subscription, params.with_indifferent_access).perform
   end
 
-  def initialize(filter, params)
-    @filter = filter
+  def initialize(subscription, params)
+    @subscription = subscription
     @params = params
   end
 
   def perform
-    filter.events.create({
+    subscription.events.create({
       account: account,
       block_hash: block_hash,
       block_number: block_number,
@@ -26,7 +26,7 @@ class EventLogger
 
   private
 
-  attr_reader :filter, :params
+  attr_reader :params, :subscription
 
   def account
     Account.find_or_create_by(address: params[:address])

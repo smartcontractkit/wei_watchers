@@ -27,7 +27,7 @@ class FilterReseter
 
   def record_past_events
     past_events.each do |event|
-      EventLogger.perform(subscription.filter_config_id, event)
+      EventLogger.perform(subscription.id, event)
     end
   end
 

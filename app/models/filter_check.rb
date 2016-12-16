@@ -16,19 +16,18 @@ class FilterCheck
   def initialize(subscription)
     @subscription = subscription
     @filter = subscription.filter
-    @filter_config = subscription.filter_config
   end
 
   def perform
     new_logs.each do |log|
-      EventLogger.delay.perform(filter_config.id, log)
+      EventLogger.delay.perform(subscription.id, log)
     end
   end
 
 
   private
 
-  attr_reader :filter, :filter_config, :subscription
+  attr_reader :filter, :subscription
 
   def new_logs
     @new_logs ||= ethereum.get_filter_changes(filter)

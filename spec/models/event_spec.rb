@@ -1,4 +1,5 @@
 describe Event, type: :model do
+
   describe "validations" do
     it { is_expected.to have_valid(:account).when(factory_create(:account)) }
     it { is_expected.not_to have_valid(:account).when(nil) }

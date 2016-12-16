@@ -2,7 +2,8 @@ class EventSubscription < ActiveRecord::Base
 
   belongs_to :filter_config, inverse_of: :event_subscription
   belongs_to :subscriber, inverse_of: :event_subscriptions
-  has_many :events, through: :filter_config
+  has_many :events, through: :event_subscription_notifications
+  has_many :event_subscription_notifications, inverse_of: :event_subscription
 
   validates :subscriber, presence: true
   validates :end_at, presence: true
