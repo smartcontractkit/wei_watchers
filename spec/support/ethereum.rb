@@ -88,7 +88,7 @@ module SpecHelpers
 
   def wait_for_ethereum_confirmation(txid)
     receipt = nil
-    60.times do
+    90.times do
       receipt = ethereum.get_transaction_receipt(txid)
       if receipt.present?
         break
