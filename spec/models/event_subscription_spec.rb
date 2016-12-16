@@ -11,6 +11,30 @@ describe EventSubscription, type: :model do
     it { is_expected.not_to have_valid(:subscriber).when(nil) }
   end
 
+  describe "on create" do
+    let(:account) { factory_create :account }
+    let(:filter_id) { new_filter_id }
+    let(:filter_config) { factory_create :filter_config, account: account }
+    let(:subscription) { factory_build :event_subscription, filter_config: filter_config }
+
+    it "creates a filter on the blockchain and saves its ID" do
+      expect_any_instance_of(EthereumClient).to receive(:create_filter)
+        .with({
+          address: account.address,
+          fromBlock: nil,
+          toBlock: nil,
+          topics: [],
+        })
+        .and_return(filter_id)
+
+      expect {
+        subscription.save
+      }.to change {
+        subscription.filter
+      }.from(nil).to(filter_id)
+    end
+  end
+
   describe ".current" do
     subject { EventSubscription.current }
 

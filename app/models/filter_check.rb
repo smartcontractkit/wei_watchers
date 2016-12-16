@@ -15,6 +15,7 @@ class FilterCheck
 
   def initialize(subscription)
     @subscription = subscription
+    @filter = subscription.filter
     @filter_config = subscription.filter_config
   end
 
@@ -27,10 +28,10 @@ class FilterCheck
 
   private
 
-  attr_reader :filter_config, :subscription
+  attr_reader :filter, :filter_config, :subscription
 
   def new_logs
-    @new_logs ||= ethereum.get_filter_changes(filter_config.xid)
+    @new_logs ||= ethereum.get_filter_changes(filter)
   end
 
 end

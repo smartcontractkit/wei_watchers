@@ -3,7 +3,7 @@ class EventSubscriptionsController < ApiController
   def create
     subscription = build_event_subscription
     if subscription.save
-      success_response id: subscription.xid
+      success_response id: subscription.filter
     else
       failure_response subscription.errors.full_messages
     end

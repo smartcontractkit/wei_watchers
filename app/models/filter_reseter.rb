@@ -9,7 +9,6 @@ class FilterReseter
 
   def initialize(subscription)
     @subscription = subscription
-    @filter_config = subscription.filter_config
   end
 
   def perform
@@ -20,15 +19,15 @@ class FilterReseter
 
   private
 
-  attr_reader :filter_config, :subscription
+  attr_reader :subscription
 
   def update_filter
-    filter_config.update_attributes!(xid: new_filter_id)
+    subscription.update_attributes!(filter: new_filter_id)
   end
 
   def record_past_events
     past_events.each do |event|
-      EventLogger.perform(filter_config.id, event)
+      EventLogger.perform(subscription.filter_config_id, event)
     end
   end
 
@@ -37,7 +36,7 @@ class FilterReseter
   end
 
   def new_filter_id
-    @new_filter_id ||= filter_config.new_on_chain_filter(fromBlock: 0)
+    @new_filter_id ||= subscription.new_on_chain_filter(fromBlock: 0)
   end
 
 end

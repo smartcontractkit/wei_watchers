@@ -7,7 +7,7 @@ describe FilterCheck, type: :model do
 
     it "logs whichever events it gets back from ethereum" do
       expect_any_instance_of(EthereumClient).to receive(:get_filter_changes)
-        .with(filter_config.xid)
+        .with(subscription.filter)
         .and_return([raw_event])
 
       expect(EventLogger).to receive_message_chain(:delay, :perform)

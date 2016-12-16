@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216070911) do
+ActiveRecord::Schema.define(version: 20161216072621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20161216070911) do
     t.datetime "end_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "filter"
   end
 
   create_table "event_topics", force: :cascade do |t|
@@ -82,7 +83,6 @@ ActiveRecord::Schema.define(version: 20161216070911) do
   end
 
   create_table "filter_configs", force: :cascade do |t|
-    t.string   "xid"
     t.integer  "account_id"
     t.integer  "from_block"
     t.integer  "to_block"

@@ -6,8 +6,11 @@ class EventSubscription < ActiveRecord::Base
 
   validates :subscriber, presence: true
   validates :end_at, presence: true
+  validates :filter, format: /\A0x[0-9a-f]{32}\z/
   validates :filter_config, presence: true
   validates_associated :filter_config
+
+  before_validation :create_filter, on: :create
 
   scope :current, -> { where "end_at >= ?", Time.now }
 
@@ -17,9 +20,20 @@ class EventSubscription < ActiveRecord::Base
     end
   end
 
-  def xid
-    filter_config.xid
+  def new_on_chain_filter(options = {})
+    ethereum.create_filter filter_params.merge(options)
   end
 
+
+  private
+
+  def create_filter
+    return unless filter_config.present?
+    self.filter ||= new_on_chain_filter
+  end
+
+  def filter_params
+    filter_config.params
+  end
 
 end

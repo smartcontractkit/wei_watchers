@@ -49,6 +49,10 @@ RSpec.configure do |config|
     allow(EthereumClient).to receive(:post)
       .and_return(http_response body: {result: ethereum_txid}.to_json)
 
+    allow_any_instance_of(EthereumClient).to receive(:create_filter) do
+      new_filter_id
+    end
+
     allow(SubscriberClient).to receive(:post)
       .and_return(http_response)
   end

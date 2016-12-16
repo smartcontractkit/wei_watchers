@@ -14,9 +14,6 @@ class FilterConfig < ActiveRecord::Base
     allow_nil: true, greater_than_or_equal_to: 0, only_integer: true }
   validates :to_block, numericality: {
     allow_nil: true, greater_than_or_equal_to: 0, only_integer: true }
-  validates :xid, format: /\A0x[0-9a-f]{32}\z/
-
-  before_validation :create_blockchain_filter, on: :create
 
   def address
     account.address if account.present?
@@ -26,20 +23,13 @@ class FilterConfig < ActiveRecord::Base
     topics.map(&:topic)
   end
 
-  def new_on_chain_filter(options = {})
-    ethereum.create_filter({
+  def params
+    {
       address: address,
       fromBlock: from_block,
       toBlock: to_block,
       topics: topic_ids,
-    }.merge(options))
-  end
-
-
-  private
-
-  def create_blockchain_filter
-    self.xid ||= new_on_chain_filter
+    }
   end
 
 end

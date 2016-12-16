@@ -17,7 +17,7 @@ describe FilterReseter, type: :model do
       expect {
         FilterReseter.perform(subscription.id)
       }.to change {
-        filter_config.reload.xid
+        subscription.reload.filter
       }
     end
 
