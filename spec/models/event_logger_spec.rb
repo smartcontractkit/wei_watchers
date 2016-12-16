@@ -27,7 +27,8 @@ describe EventLogger, type: :model do
     end
 
     it "parses the hex values from Ethereum" do
-      event = EventLogger.perform(subscription.id, params)
+      notification = EventLogger.perform(subscription.id, params)
+      event = notification.event
 
       expect(event.account).to eq(account)
       expect(event.block_hash).to eq(block_hash)
@@ -73,6 +74,23 @@ describe EventLogger, type: :model do
         }.by(topics.size)
 
         expect(Topic.last(topics.size).map(&:topic)).to eq(topics)
+      end
+    end
+
+    context "when called for two different subscriptions" do
+      let(:old_subscription) { factory_create :event_subscription }
+
+      before do
+        old_subscription = factory_create :event_subscription
+        EventLogger.perform(old_subscription.id, params)
+      end
+
+      it "associates the new event with the filter passed in" do
+        expect {
+          EventLogger.perform(subscription.id, params)
+        }.to change {
+          subscription.reload.events.count
+        }.by(+1)
       end
     end
   end

@@ -11,15 +11,8 @@ class EventLogger
   end
 
   def perform
-    subscription.events.create({
-      account: account,
-      block_hash: block_hash,
-      block_number: block_number,
-      data: data,
-      log_index: log_index,
-      topics: topics,
-      transaction_hash: transaction_hash,
-      transaction_index: transaction_index,
+    subscription.event_subscription_notifications.create({
+      event: event
     })
   end
 
@@ -60,6 +53,30 @@ class EventLogger
 
   def transaction_index
     ethereum.hex_to_int params[:transactionIndex]
+  end
+
+  def event
+    @event ||= (find_event || create_event)
+  end
+
+  def find_event
+    Event.find_by({
+      block_number: block_number,
+      log_index: log_index,
+    })
+  end
+
+  def create_event
+    Event.create({
+      account: account,
+      block_hash: block_hash,
+      block_number: block_number,
+      data: data,
+      log_index: log_index,
+      topics: topics,
+      transaction_hash: transaction_hash,
+      transaction_index: transaction_index,
+    })
   end
 
 end
