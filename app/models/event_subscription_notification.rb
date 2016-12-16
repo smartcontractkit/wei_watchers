@@ -1,7 +1,7 @@
-class EventFilter < ActiveRecord::Base
+class EventSubscriptionNotification < ActiveRecord::Base
 
-  belongs_to :event, inverse_of: :event_filters
-  belongs_to :filter, inverse_of: :event_filters
+  belongs_to :event, inverse_of: :event_subscription_notifications
+  belongs_to :filter, inverse_of: :event_subscription_notifications
 
   validates :event, presence: true, uniqueness: { scope: [:filter] }
   validates :filter, presence: true

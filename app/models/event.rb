@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
 
   belongs_to :account
-  has_many :event_filters, inverse_of: :event
+  has_many :event_subscription_notifications, inverse_of: :event
   has_many :event_topics, inverse_of: :event
   has_many :topics, through: :event_topics
   has_many :filters, through: :event_filters
