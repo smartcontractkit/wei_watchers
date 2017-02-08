@@ -4,7 +4,7 @@ class SubscriberClient
 
   def self.account_balance(subscriber_id, params)
     subscriber = Subscriber.find(subscriber_id)
-    new(subscriber).notify(params)
+    new(subscriber).account_balance(params)
   end
 
   def initialize(subscriber)
