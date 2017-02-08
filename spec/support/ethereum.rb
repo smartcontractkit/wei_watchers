@@ -87,16 +87,22 @@ module SpecHelpers
   end
 
   def wait_for_ethereum_confirmation(txid)
+    raise "No TXID to wait for!" if txid.blank?
+    average_block_time = 17
+    try_rate = 4.0
+    buffer = 6
+
     receipt = nil
-    90.times do
-      receipt = ethereum.get_transaction_receipt(txid)
-      if receipt.present?
-        break
-      else
-        sleep 0.5
+    ((average_block_time * buffer) * try_rate).to_i.times do
+      block_height = ethereum.current_block_height
+      receipt ||= ethereum.get_transaction_receipt(txid)
+
+      if receipt && receipt.blockNumber
+        tx_block_number ||= ethereum.hex_to_int(receipt.blockNumber)
+        break if (tx_block_number && (block_height.to_i >= tx_block_number.to_i))
       end
+      sleep (1 / try_rate)
     end
-    raise "Contract not confirmed" unless receipt.present?
     receipt
   end
 

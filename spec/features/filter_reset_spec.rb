@@ -1,4 +1,5 @@
-describe "logging events", type: :request do before { unstub_ethereum_calls }
+describe "logging events", type: :request do
+  before { unstub_ethereum_calls }
 
   let(:subscriber) { factory_create :subscriber }
   let(:topic) { "0x#{bin_to_hex(Eth::Utils.keccak256 'Updated(bytes32)')}" }

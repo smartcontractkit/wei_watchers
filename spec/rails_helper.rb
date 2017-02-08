@@ -21,7 +21,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do |example|
     port = 7434
-    geth = "geth --dev --mine --fakepow --etherbase #{default_address} --rpc --rpccorsdomain '*' --rpcport #{port} --ipcpath './tmp/geth.ipc' --datadir './tmp' --verbosity 0"
+    geth = "geth --dev --mine --fakepow --etherbase #{default_address} --rpc --rpccorsdomain '*' --rpcport #{port} --ipcpath './tmp/geth.ipc' --datadir './tmp' --lightkdf --verbosity 0"
     closed = true
     attempts = 0
 
