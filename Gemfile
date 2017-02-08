@@ -12,6 +12,7 @@ gem 'puma'
 gem 'rails', '~> 4.2.7'
 gem 'rails-api'
 gem 'sass-rails'
+gem 'sysrandom', require: "sysrandom/securerandom"
 gem 'uglifier'
 
 group :development, :test do
