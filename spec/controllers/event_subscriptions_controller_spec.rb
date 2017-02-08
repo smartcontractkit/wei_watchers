@@ -30,6 +30,13 @@ describe EventSubscriptionsController, type: :controller do
         }.by(+1)
       end
 
+      it "responds with an identifier for the filter config" do
+        post :create, filter_params
+
+        expect(json_response['id']).to eq(EventSubscription.last.xid)
+        expect(json_response['xid']).to eq(EventSubscription.last.xid)
+      end
+
       context "when topics are included" do
         let!(:old_topic) { factory_create :topic }
         let(:topics) { [new_filter_topic, old_topic.topic] }
