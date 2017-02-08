@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'active_model_serializers', '~> 0.10.0'
 gem 'clockwork'
 gem 'delayed_job_active_record'
 gem 'dotenv-rails'
@@ -8,13 +9,15 @@ gem 'hashie'
 gem 'httparty'
 gem 'pg'
 gem 'puma'
-gem 'rails', '4.2.6'
+gem 'rails', '~> 4.2.7'
 gem 'rails-api'
 gem 'sass-rails'
+gem 'sysrandom', require: "sysrandom/securerandom"
 gem 'uglifier'
 
 group :development, :test do
   gem 'byebug'
+  gem 'eth'
   gem 'factory_girl_rails'
   gem 'pry-rails'
   gem 'rspec-rails'

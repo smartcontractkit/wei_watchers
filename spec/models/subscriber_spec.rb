@@ -30,15 +30,34 @@ describe Subscriber, type: :model do
     end
   end
 
-  describe ".notify" do
+  describe ".update_balance" do
     let(:subscriber) { factory_create :subscriber }
     let(:params) { {bar: SecureRandom.hex} }
 
     it "sends a notification to subscriber" do
-      expect(SubscriberClient).to receive_message_chain(:delay, :notify)
+      expect(SubscriberClient).to receive_message_chain(:delay, :account_balance)
         .with(subscriber.id, params)
 
-      Subscriber.notify subscriber.id, params
+      Subscriber.update_balance subscriber.id, params
+    end
+  end
+
+  describe "#event" do
+    let(:subscriber) { factory_create :subscriber }
+    let(:client) { instance_double SubscriberClient }
+    let(:event_id) { SecureRandom.hex }
+
+    before do
+      allow(SubscriberClient).to receive(:new)
+        .with(subscriber)
+        .and_return(client)
+    end
+
+    it "creates a job to log an event" do
+      expect(client).to receive_message_chain(:delay, :event)
+        .with(event_id)
+
+      subscriber.event(event_id)
     end
   end
 end

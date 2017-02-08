@@ -1,6 +1,8 @@
 class SubscriberClient
 
-  def self.notify(subscriber_id, params)
+  include HttpClient
+
+  def self.account_balance(subscriber_id, params)
     subscriber = Subscriber.find(subscriber_id)
     new(subscriber).notify(params)
   end
@@ -9,12 +11,14 @@ class SubscriberClient
     @subscriber = subscriber
   end
 
-  def notify(body)
-    json = JSON.parse(post(body))
+  def account_balance(body)
+    check_post_success '/account_balances', body
+  end
 
-    if json['acknowledged_at'].blank?
-      raise "Subscriber did not acknowledge: #{json['errors']}"
-    end
+  def event(id)
+    event = Event.find(id)
+    serializer = EventSerializer.new(event)
+    check_post_success '/events', serializer.attributes
   end
 
 
@@ -22,14 +26,21 @@ class SubscriberClient
 
   attr_reader :subscriber
 
-  def post(body)
-    HTTParty.post(subscriber.notification_url, {
-      basic_auth: {
-        password: subscriber.notifier_key,
-        username: subscriber.notifier_id,
-      },
-      body: body
-    }).body
+  def check_post_success(path, body)
+    url = "#{subscriber.notification_url}#{path}"
+    response = post url, body
+
+    unless response.success?
+      json = JSON.parse(response.body)
+      raise "Notification failure: #{json['errors']}"
+    end
+  end
+
+  def http_client_auth_params
+    {
+      password: subscriber.notifier_key,
+      username: subscriber.notifier_id,
+    }
   end
 
 end

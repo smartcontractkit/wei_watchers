@@ -12,7 +12,6 @@ describe EthereumClient, type: :model do
     it "posts a new transaction to Ethereum" do
       expect(EthereumClient).to receive(:post)
         .with('/', {
-          basic_auth: nil,
           body: {
             id: 7357,
             jsonrpc: '2.0',
@@ -35,7 +34,6 @@ describe EthereumClient, type: :model do
     before do
       expect(EthereumClient).to receive(:post)
         .with('/', {
-          basic_auth: nil,
           body: {
             id: 7357,
             jsonrpc: '2.0',
@@ -59,7 +57,7 @@ describe EthereumClient, type: :model do
 
   describe "#format_string_hex" do
     let(:output) { ethereum.format_string_hex string }
-    let(:string) { SecureRandom.base64(size * 2).first(size) }
+    let(:string) { SecureRandom.urlsafe_base64(size * 2).first(size) }
     let(:byte_format) { output[0..63].to_i(16) }
     let(:length) { output[64..127].to_i(16) }
     let(:hex_message) { output[128..-1] }
@@ -67,7 +65,7 @@ describe EthereumClient, type: :model do
     context "when the string is less than 32 bytes" do
       let(:size) { 30 }
       it { expect(byte_format).to equal(32) }
-      it { expect(length).to equal(size) }
+      it { expect(length).to eq(size) }
       it { expect(hex_message.size).to equal(64) }
       it { expect(ethereum.hex_to_utf8 hex_message).to eq(string) }
     end
@@ -75,7 +73,7 @@ describe EthereumClient, type: :model do
     context "when the string is 32 bytes" do
       let(:size) { 32 }
       it { expect(byte_format).to equal(32) }
-      it { expect(length).to equal(size) }
+      it { expect(length).to eq(size) }
       it { expect(hex_message.size).to equal(128) }
       it { expect(ethereum.hex_to_utf8 hex_message).to eq(string) }
     end
@@ -83,7 +81,7 @@ describe EthereumClient, type: :model do
     context "when the string is less than 64 bytes" do
       let(:size) { 63 }
       it { expect(byte_format).to equal(32) }
-      it { expect(length).to equal(size) }
+      it { expect(length).to eq(size) }
       it { expect(hex_message.size).to equal(128) }
       it { expect(ethereum.hex_to_utf8 hex_message).to eq(string) }
     end
@@ -91,7 +89,7 @@ describe EthereumClient, type: :model do
     context "when the string is less than 96 bytes" do
       let(:size) { 95 }
       it { expect(byte_format).to equal(32) }
-      it { expect(length).to equal(size) }
+      it { expect(length).to eq(size) }
       it { expect(hex_message.size).to equal(192) }
       it { expect(ethereum.hex_to_utf8 hex_message).to eq(string) }
     end
@@ -131,7 +129,6 @@ describe EthereumClient, type: :model do
     it "posts a new transaction to Ethereum" do
       expect(EthereumClient).to receive(:post)
         .with('/', {
-          basic_auth: nil,
           body: {
             id: random_id,
             jsonrpc: '2.0',
