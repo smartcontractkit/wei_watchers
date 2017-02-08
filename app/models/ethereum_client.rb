@@ -1,12 +1,13 @@
 class EthereumClient
   WEI_PER_ETHER = 10**18
   NULL_ACCOUNT = "0x#{'0' * 40}"
+  EMPTY_BYTE = "\x00"
 
   include HttpClient
   base_uri ENV['ETHEREUM_URL']
 
-  def account_balance(account)
-    hex_to_int epost('eth_getBalance', [to_eth_hex(account), 'latest']).result
+  def account_balance(account, tag = 'latest')
+    hex_to_int epost('eth_getBalance', [to_eth_hex(account), tag]).result
   end
 
   def client_version
@@ -43,7 +44,7 @@ class EthereumClient
   end
 
   def get_transaction_receipt(txid)
-    epost('eth_getTransactionReceipt', txid).result
+    epost('eth_getTransactionReceipt', hex_prefix(txid)).result
   end
 
   def create_filter(options)
@@ -70,8 +71,8 @@ class EthereumClient
     epost('eth_getLogs', options)
   end
 
-  def get_transaction_count(account)
-    hex_to_int epost('eth_getTransactionCount', [account, 'latest']).result
+  def get_transaction_count(account, tag = 'latest')
+    hex_to_int epost('eth_getTransactionCount', [eth_account(account), tag]).result
   end
 
   def utf8_to_hex(string)
@@ -79,7 +80,7 @@ class EthereumClient
   end
 
   def hex_to_utf8(hex)
-    hex_to_bytes32(hex).delete("\x00")
+    hex_to_bytes32(hex).delete(EMPTY_BYTE)
   end
 
   def hex_to_bytes32(hex)
@@ -130,12 +131,15 @@ class EthereumClient
   def to_eth_hex(data)
     return data if data.blank?
     data = data.to_s(16) if data.is_a? Integer
-    (data[0..1] == '0x') ? data : "0x#{data}"
+    hex_prefix data
   end
 
   def eth_account(account)
-    return if account.blank?
-    account
+    hex_prefix(account.instance_of?(Account) ? account.address : account)
+  end
+
+  def hex_prefix(hex)
+    (hex[0..1] == '0x') ? hex : "0x#{hex}"
   end
 
   def hex_gas_price(price)
