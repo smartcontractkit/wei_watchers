@@ -11,7 +11,7 @@ class EventSubscription < ActiveRecord::Base
   validates :filter_config, presence: true
   validates_associated :filter_config
 
-  before_validation :create_filter, on: :create
+  before_validation :set_up, on: :create
 
   scope :current, -> { where "end_at >= ?", Time.now }
 
@@ -28,7 +28,8 @@ class EventSubscription < ActiveRecord::Base
 
   private
 
-  def create_filter
+  def set_up
+    self.xid = SecureRandom.uuid
     return unless filter_config.present?
     self.filter ||= new_on_chain_filter
   end

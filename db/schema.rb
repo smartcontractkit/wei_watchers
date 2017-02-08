@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216080656) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20170208174755) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "address"
@@ -61,6 +58,7 @@ ActiveRecord::Schema.define(version: 20161216080656) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "filter"
+    t.string   "xid"
   end
 
   create_table "event_topics", force: :cascade do |t|

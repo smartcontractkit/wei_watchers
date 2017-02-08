@@ -9,6 +9,8 @@ describe EventSubscription, type: :model do
 
     it { is_expected.to have_valid(:subscriber).when(factory_create :subscriber) }
     it { is_expected.not_to have_valid(:subscriber).when(nil) }
+
+    it { is_expected.to have_valid(:xid).when(nil) }
   end
 
   describe "on create" do
@@ -32,6 +34,14 @@ describe EventSubscription, type: :model do
       }.to change {
         subscription.filter
       }.from(nil).to(filter_id)
+    end
+
+    it "generates an external ID" do
+      expect {
+        subscription.save
+      }.to change {
+        subscription.xid
+      }.from(nil)
     end
   end
 
