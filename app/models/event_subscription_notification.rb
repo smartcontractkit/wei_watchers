@@ -9,11 +9,47 @@ class EventSubscriptionNotification < ActiveRecord::Base
 
   after_create :log_event_with_subscriber
 
+  def address
+    event.address
+  end
+
+  def block_hash
+    event.block_hash
+  end
+
+  def block_number
+    event.block_number
+  end
+
+  def data
+    event.data
+  end
+
+  def log_index
+    event.log_index
+  end
+
+  def subscription_xid
+    event_subscription.xid
+  end
+
+  def topic_ids
+    event.topic_ids
+  end
+
+  def transaction_hash
+    event.transaction_hash
+  end
+
+  def transaction_index
+    event.transaction_index
+  end
+
 
   private
 
   def log_event_with_subscriber
-    subscriber.event event_id
+    subscriber.event id
   end
 
 end

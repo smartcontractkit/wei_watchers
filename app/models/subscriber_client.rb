@@ -16,8 +16,8 @@ class SubscriberClient
   end
 
   def event(id)
-    event = Event.find(id)
-    serializer = EventSerializer.new(event)
+    event_notification = EventSubscriptionNotification.find(id)
+    serializer = EventSubscriptionNotificationSerializer.new(event_notification)
     check_post_success '/events', serializer.attributes
   end
 
