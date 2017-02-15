@@ -1,7 +1,7 @@
 class EventSubscriptionNotificationSerializer < ActiveModel::Serializer
 
   attributes :address, :blockHash, :blockNumber,
-    :data, :logIndex, :subscriptionXID, :topics,
+    :data, :logIndex, :subscription, :topics,
     :transactionHash, :transactionIndex
 
   def blockHash
@@ -16,7 +16,7 @@ class EventSubscriptionNotificationSerializer < ActiveModel::Serializer
     object.log_index
   end
 
-  def subscriptionXID
+  def subscription
     object.subscription_xid
   end
 

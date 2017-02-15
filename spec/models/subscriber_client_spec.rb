@@ -29,8 +29,7 @@ describe SubscriberClient, type: :model do
       end
     end
 
-    context "when the response does NOT include an acknowledged at time" do
-      let(:success) { false }
+    context "when the response does NOT include an acknowledged at time" do let(:success) { false }
       let(:body) { {errors: ['all of the errors']}.to_json }
 
       it "raises an error" do
@@ -60,7 +59,7 @@ describe SubscriberClient, type: :model do
             blockNumber: event.block_number,
             data: event.data,
             logIndex: event.log_index,
-            subscriptionXID: event_notification.subscription_xid,
+            subscription: event_notification.subscription_xid,
             topics: event.topic_ids,
             transactionHash: event.transaction_hash,
             transactionIndex: event.transaction_index,
