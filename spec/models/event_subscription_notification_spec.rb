@@ -23,7 +23,7 @@ describe EventSubscriptionNotification, type: :model do
     it "generates a notification for the filter's subscriber" do
       expect_any_instance_of(Subscriber).to receive(:event) do |subscriber, params|
         expect(subscriber).to eq(event_subscription.subscriber)
-        expect(params).to eq(event.id)
+        expect(params).to eq(event_filter.id)
       end
 
       event_filter.save

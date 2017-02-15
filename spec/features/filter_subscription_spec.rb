@@ -47,6 +47,7 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
           data: event.data,
           logIndex: event.log_index,
           topics: event.topic_ids,
+          subscription: event.event_subscription_notifications.first.subscription_xid,
           transactionHash: event.transaction_hash,
           transactionIndex: event.transaction_index,
         }

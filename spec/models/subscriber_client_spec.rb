@@ -29,8 +29,7 @@ describe SubscriberClient, type: :model do
       end
     end
 
-    context "when the response does NOT include an acknowledged at time" do
-      let(:success) { false }
+    context "when the response does NOT include an acknowledged at time" do let(:success) { false }
       let(:body) { {errors: ['all of the errors']}.to_json }
 
       it "raises an error" do
@@ -42,7 +41,8 @@ describe SubscriberClient, type: :model do
   end
 
   describe "#event" do
-    let(:event) { factory_create :event }
+    let(:event) { event_notification.event }
+    let(:event_notification) { factory_create :event_subscription_notification }
     let(:body) { {}.to_json }
     let(:response) { double success?: success, body: body }
 
@@ -59,6 +59,7 @@ describe SubscriberClient, type: :model do
             blockNumber: event.block_number,
             data: event.data,
             logIndex: event.log_index,
+            subscription: event_notification.subscription_xid,
             topics: event.topic_ids,
             transactionHash: event.transaction_hash,
             transactionIndex: event.transaction_index,
@@ -72,7 +73,7 @@ describe SubscriberClient, type: :model do
 
       it "posts to the subscriber's notification URL" do
         expect {
-          client.event(event.id)
+          client.event(event_notification.id)
         }.not_to raise_error
       end
     end
@@ -83,7 +84,7 @@ describe SubscriberClient, type: :model do
 
       it "raises an error" do
         expect {
-          client.event(event.id)
+          client.event(event_notification.id)
         }.to raise_error 'Notification failure: ["all of the errors"]'
       end
     end
