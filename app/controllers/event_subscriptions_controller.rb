@@ -8,7 +8,9 @@ class EventSubscriptionsController < ApiController
         xid: subscription.xid,
       })
     else
-      failure_response subscription.errors.full_messages
+      errors = subscription.errors.full_messages +
+      filter_errors = subscription.filter ? subscription.filter.errors.full_messages : []
+      failure_response (errors + filter_errors)
     end
   end
 

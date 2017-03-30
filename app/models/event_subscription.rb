@@ -1,5 +1,7 @@
 class EventSubscription < ActiveRecord::Base
 
+  include HasEthereumClient
+
   belongs_to :filter_config, inverse_of: :event_subscription
   belongs_to :subscriber, inverse_of: :event_subscriptions
   has_many :events, through: :event_subscription_notifications
@@ -7,7 +9,7 @@ class EventSubscription < ActiveRecord::Base
 
   validates :subscriber, presence: true
   validates :end_at, presence: true
-  validates :filter, format: /\A0x[0-9a-f]{32}\z/
+  validates :filter, format: /\A0x[0-9a-f]+\z/
   validates :filter_config, presence: true
   validates_associated :filter_config
 

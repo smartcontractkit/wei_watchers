@@ -63,8 +63,8 @@ module SpecHelpers
       .and_call_original
   end
 
-  def int_to_hex(int)
-    ethereum.int_to_hex(int)
+  def uint_to_hex(int)
+    ethereum.format_uint_to_hex(int)
   end
 
   def complete_all_current_background_jobs

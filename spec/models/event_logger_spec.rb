@@ -17,12 +17,12 @@ describe EventLogger, type: :model do
       {
         address: address,
         blockHash: block_hash,
-        blockNumber: int_to_hex(block_number),
+        blockNumber: uint_to_hex(block_number),
         data: data,
-        logIndex: int_to_hex(log_index),
+        logIndex: uint_to_hex(log_index),
         topics: topics,
         transactionHash: transaction_hash,
-        transactionIndex: int_to_hex(transaction_index),
+        transactionIndex: uint_to_hex(transaction_index),
       }
     end
 

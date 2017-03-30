@@ -36,7 +36,9 @@ class FilterReseter
   end
 
   def new_filter_id
-    @new_filter_id ||= subscription.new_on_chain_filter(fromBlock: 0)
+    @new_filter_id ||= subscription.new_on_chain_filter({
+      fromBlock: ethereum.format_uint_to_hex(0)
+    })
   end
 
 end
