@@ -9,7 +9,7 @@ class EventSubscription < ActiveRecord::Base
 
   validates :subscriber, presence: true
   validates :end_at, presence: true
-  validates :filter, format: /\A0x[0-9a-f]{32}\z/
+  validates :filter, format: /\A0x[0-9a-f]+\z/
   validates :filter_config, presence: true
   validates_associated :filter_config
 
