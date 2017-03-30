@@ -1,5 +1,7 @@
 class EventSubscription < ActiveRecord::Base
 
+  include HasEthereumClient
+
   belongs_to :filter_config, inverse_of: :event_subscription
   belongs_to :subscriber, inverse_of: :event_subscriptions
   has_many :events, through: :event_subscription_notifications
