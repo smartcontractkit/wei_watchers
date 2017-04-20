@@ -1,4 +1,5 @@
-describe "logging events", type: :request do before { unstub_ethereum_calls }
+describe "logging events", type: :request do
+  before { unstub_ethereum_calls }
 
   let(:subscriber) { factory_create :subscriber }
   let(:topic) { "0x#{bin_to_hex(Eth::Utils.keccak256 'Updated(bytes32)')}" }
@@ -13,9 +14,11 @@ describe "logging events", type: :request do before { unstub_ethereum_calls }
     })
     contract_address = get_contract_address(tx.hash)
 
-    post('/api/event_subscriptions',
-         {account: contract_address, topics: [topic], endAt: 1.year.from_now.to_i},
-         basic_auth_login(subscriber, {}))
+    post('/api/event_subscriptions', {
+      account: contract_address,
+      topics: [topic],
+      endAt: 1.year.from_now.to_i
+    }, basic_auth_login(subscriber, {}))
 
     update_message = 'Hi Mom!'
     update_tx = send_eth_tx(default_account, {
