@@ -14,6 +14,7 @@ class EventSubscription < ActiveRecord::Base
   validates_associated :filter_config
 
   before_validation :set_up, on: :create
+  after_create :check_missed_events
 
   scope :current, -> { where "end_at >= ?", Time.now }
 
@@ -34,6 +35,10 @@ class EventSubscription < ActiveRecord::Base
     self.xid = SecureRandom.uuid
     return unless filter_config.present?
     self.filter ||= new_on_chain_filter
+  end
+
+  def check_missed_events
+    FilterCheck.delay.perform(id)
   end
 
   def filter_params

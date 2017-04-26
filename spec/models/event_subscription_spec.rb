@@ -11,6 +11,18 @@ describe EventSubscription, type: :model do
     it { is_expected.not_to have_valid(:subscriber).when(nil) }
   end
 
+  describe "on create" do
+    let(:subscription) { factory_build :event_subscription }
+
+    it "checks for past events that it may already have missed" do
+      expect(FilterCheck).to receive_message_chain(:delay, :perform) do |id|
+        expect(id).to eq(subscription.id)
+      end
+
+      subscription.save
+    end
+  end
+
   describe ".current" do
     subject { EventSubscription.current }
 
