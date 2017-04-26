@@ -9,7 +9,6 @@ class EventSubscription < ActiveRecord::Base
 
   validates :subscriber, presence: true
   validates :end_at, presence: true
-  validates :filter, format: /\A0x[0-9a-f]+\z/
   validates :filter_config, presence: true
   validates_associated :filter_config
 
@@ -24,10 +23,6 @@ class EventSubscription < ActiveRecord::Base
     end
   end
 
-  def new_on_chain_filter(options = {})
-    ethereum.create_filter filter_params.merge(options)
-  end
-
   def filter_params
     filter_config.params.merge({
       fromBlock: formatted_block_height,
@@ -40,7 +35,6 @@ class EventSubscription < ActiveRecord::Base
   def set_up
     self.xid = SecureRandom.uuid
     return unless filter_config.present?
-    self.filter ||= new_on_chain_filter
   end
 
   def check_missed_events

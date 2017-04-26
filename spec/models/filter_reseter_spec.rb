@@ -1,23 +1,27 @@
 describe FilterReseter, type: :model do
 
   describe ".perform" do
-    before do
-      allow(EthereumClient).to receive(:post)
-        .and_return(http_response body: {result: new_filter_id}.to_json)
-
-      expect_any_instance_of(EthereumClient).to receive(:get_filter_logs)
-        .and_return(old_events)
-    end
-
-    let(:subscription) { factory_create :event_subscription }
+    let(:current_block_height) { 7_777_777 }
+    let(:subscription) { factory_create :event_subscription, last_block_height: 333 }
     let(:old_events) { [] }
 
-    it "creates a new filter ID for the filter" do
+    before do
+      allow_any_instance_of(EthereumClient).to receive(:current_block_height)
+        .and_return(current_block_height)
+
+      expect_any_instance_of(EthereumClient).to receive(:get_logs)
+        .with(subscription.filter_params.merge({
+          fromBlock: "0x#{ethereum.format_int_to_hex 0}"
+        }))
+        .and_return(double result: old_events)
+    end
+
+    it "sets the block height to the current height" do
       expect {
         FilterReseter.perform(subscription.id)
       }.to change {
-        subscription.reload.filter
-      }
+        subscription.reload.last_block_height
+      }.to(current_block_height)
     end
 
     context "when old events are found" do
@@ -25,7 +29,7 @@ describe FilterReseter, type: :model do
       let(:old_events) { [old_event] }
 
       it "retries creating all past logs of the filter" do
-        expect(EventLogger).to receive(:perform)
+        expect(EventLogger).to receive_message_chain(:delay, :perform)
           .with(subscription.id, old_event)
 
         FilterReseter.perform(subscription.id)
