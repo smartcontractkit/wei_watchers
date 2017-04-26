@@ -5,11 +5,13 @@ describe FilterCheck, type: :model do
     let(:raw_event) { double :raw_event }
     let(:block_height) { 1_234_567 }
 
-    it "logs whichever events it gets back from ethereum" do
-      expect_any_instance_of(EthereumClient).to receive(:get_filter_changes)
-        .with(subscription.filter)
-        .and_return([raw_event])
+    before do
+      expect_any_instance_of(EthereumClient).to receive(:get_logs)
+        .with(subscription.filter_params)
+        .and_return(double result: [raw_event])
+    end
 
+    it "logs whichever events it gets back from ethereum" do
       expect(EventLogger).to receive_message_chain(:delay, :perform)
         .with(subscription.id, raw_event)
 

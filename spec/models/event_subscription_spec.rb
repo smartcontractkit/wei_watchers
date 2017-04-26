@@ -45,4 +45,18 @@ describe EventSubscription, type: :model do
     end
   end
 
+  describe "#filter_params" do
+    let(:filter) { factory_create :filter_config }
+    let(:subscription) { factory_create :event_subscription, filter_config: filter }
+
+    it "returns all of the filter details" do
+      params = subscription.filter_params
+
+      expect(params[:address]).to eq(filter.address)
+      expect(params[:fromBlock]).to eq("0x#{ethereum.format_int_to_hex subscription.last_block_height}")
+      expect(params[:toBlock]).to eq(filter.to_block)
+      expect(params[:topics]).to eq(filter.topic_ids)
+    end
+  end
+
 end

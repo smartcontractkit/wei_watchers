@@ -28,6 +28,12 @@ class EventSubscription < ActiveRecord::Base
     ethereum.create_filter filter_params.merge(options)
   end
 
+  def filter_params
+    filter_config.params.merge({
+      fromBlock: formatted_block_height,
+    }).compact
+  end
+
 
   private
 
@@ -41,8 +47,8 @@ class EventSubscription < ActiveRecord::Base
     FilterCheck.delay.perform(id)
   end
 
-  def filter_params
-    filter_config.params
+  def formatted_block_height
+    "0x#{ethereum.format_int_to_hex last_block_height}"
   end
 
 end

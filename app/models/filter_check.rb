@@ -17,7 +17,6 @@ class FilterCheck
 
   def initialize(subscription, current_block = nil)
     @subscription = subscription
-    @filter = subscription.filter
     @current_block = current_block
   end
 
@@ -32,10 +31,10 @@ class FilterCheck
 
   private
 
-  attr_reader :current_block, :filter, :subscription
+  attr_reader :current_block, :subscription
 
   def new_logs
-    @new_logs ||= ethereum.get_filter_changes(filter)
+    @new_logs ||= ethereum.get_logs(subscription.filter_params).result
   end
 
   def update_subscription_block_height
