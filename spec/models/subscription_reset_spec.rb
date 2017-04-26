@@ -1,4 +1,4 @@
-describe FilterReseter, type: :model do
+describe SubscriptionReset, type: :model do
 
   describe ".perform" do
     let(:current_block_height) { 7_777_777 }
@@ -18,7 +18,7 @@ describe FilterReseter, type: :model do
 
     it "sets the block height to the current height" do
       expect {
-        FilterReseter.perform(subscription.id)
+        SubscriptionReset.perform(subscription.id)
       }.to change {
         subscription.reload.last_block_height
       }.to(current_block_height)
@@ -32,7 +32,7 @@ describe FilterReseter, type: :model do
         expect(EventLogger).to receive_message_chain(:delay, :perform)
           .with(subscription.id, old_event)
 
-        FilterReseter.perform(subscription.id)
+        SubscriptionReset.perform(subscription.id)
       end
     end
   end

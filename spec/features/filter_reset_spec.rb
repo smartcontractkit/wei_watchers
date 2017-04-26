@@ -29,7 +29,7 @@ describe "logging events", type: :request do
     expect(subscription).to be_present
 
     expect {
-      FilterCheck.schedule_checks
+      SubscriptionCheck.schedule_checks
       complete_all_current_background_jobs # generates job to create event
       complete_all_current_background_jobs # runs job create event
     }.to change {

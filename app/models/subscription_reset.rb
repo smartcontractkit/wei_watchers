@@ -1,4 +1,4 @@
-class FilterReseter
+class SubscriptionReset
 
   include HasEthereumClient
 
@@ -26,7 +26,7 @@ class FilterReseter
   end
 
   def record_past_events
-    FilterCheck.new(subscription, ethereum.current_block_height).perform
+    SubscriptionCheck.new(subscription, ethereum.current_block_height).perform
   end
 
 end

@@ -1,4 +1,4 @@
-class FilterCheck
+class SubscriptionCheck
 
   include HasEthereumClient
 

@@ -19,7 +19,7 @@ class EventSubscription < ActiveRecord::Base
 
   def self.reset_current_filters
     current.pluck(:id).each do |id|
-      FilterReseter.perform(id)
+      SubscriptionReset.perform(id)
     end
   end
 
@@ -38,7 +38,7 @@ class EventSubscription < ActiveRecord::Base
   end
 
   def check_missed_events
-    FilterCheck.delay.perform(id)
+    SubscriptionCheck.delay.perform(id)
   end
 
   def formatted_block_height

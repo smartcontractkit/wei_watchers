@@ -15,7 +15,7 @@ describe EventSubscription, type: :model do
     let(:subscription) { factory_build :event_subscription }
 
     it "checks for past events that it may already have missed" do
-      expect(FilterCheck).to receive_message_chain(:delay, :perform) do |id|
+      expect(SubscriptionCheck).to receive_message_chain(:delay, :perform) do |id|
         expect(id).to eq(subscription.id)
       end
 
@@ -38,7 +38,7 @@ describe EventSubscription, type: :model do
     let!(:current_subscription) { factory_create :event_subscription, end_at: 1.minute.from_now }
 
     it "only resets the filters of current filters" do
-      expect(FilterReseter).to receive(:perform)
+      expect(SubscriptionReset).to receive(:perform)
         .with(current_subscription.id)
 
       EventSubscription.reset_current_filters

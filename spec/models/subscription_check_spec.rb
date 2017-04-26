@@ -1,4 +1,4 @@
-describe FilterCheck, type: :model do
+describe SubscriptionCheck, type: :model do
 
   describe ".perform" do
     let(:subscription) { factory_create :event_subscription }
@@ -15,12 +15,12 @@ describe FilterCheck, type: :model do
       expect(EventLogger).to receive_message_chain(:delay, :perform)
         .with(subscription.id, raw_event)
 
-      FilterCheck.perform subscription.id
+      SubscriptionCheck.perform subscription.id
     end
 
     it "updates the subscription's last block height" do
       expect {
-        FilterCheck.perform subscription.id, block_height
+        SubscriptionCheck.perform subscription.id, block_height
       }.to change {
         subscription.reload.last_block_height
       }.to(block_height)
