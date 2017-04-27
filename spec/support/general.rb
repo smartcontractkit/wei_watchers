@@ -74,7 +74,7 @@ module SpecHelpers
   end
 
   def check_event_subscriptions
-    FilterCheck.schedule_checks
+    SubscriptionCheck.schedule_checks
     complete_all_current_background_jobs # generates job to create event
     complete_all_current_background_jobs # runs job create event
   end

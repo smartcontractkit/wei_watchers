@@ -26,23 +26,17 @@ class FilterConfig < ActiveRecord::Base
   def params
     {
       address: address,
-      fromBlock: from_block_param,
-      toBlock: to_block_param,
+      fromBlock: format_eth_int(from_block),
+      toBlock: format_eth_int(to_block),
       topics: topic_ids,
-    }
+    }.compact
   end
 
 
   private
 
-  def from_block_param
-    "0x" + ethereum.format_uint_to_hex(from_block.to_i)
-  end
-
-  def to_block_param
-    if to_block.present?
-      "0x" + ethereum.format_uint_to_hex(to_block)
-    end
+  def format_eth_int(int)
+    "0x#{ethereum.format_int_to_hex int}" if int.present?
   end
 
 end

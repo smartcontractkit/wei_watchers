@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170208174755) do
+ActiveRecord::Schema.define(version: 20170426004403) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "address"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20170208174755) do
     t.datetime "updated_at"
     t.string   "filter"
     t.string   "xid"
+    t.integer  "last_block_height", default: 0
   end
 
   create_table "event_topics", force: :cascade do |t|

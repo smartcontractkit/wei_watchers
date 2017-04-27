@@ -9,22 +9,24 @@ class EventSubscription < ActiveRecord::Base
 
   validates :subscriber, presence: true
   validates :end_at, presence: true
-  validates :filter, format: /\A0x[0-9a-f]+\z/
   validates :filter_config, presence: true
   validates_associated :filter_config
 
   before_validation :set_up, on: :create
+  after_create :check_missed_events
 
   scope :current, -> { where "end_at >= ?", Time.now }
 
   def self.reset_current_filters
     current.pluck(:id).each do |id|
-      FilterReseter.perform(id)
+      SubscriptionReset.perform(id)
     end
   end
 
-  def new_on_chain_filter(options = {})
-    ethereum.create_filter filter_params.merge(options)
+  def filter_params
+    filter_config.params.merge({
+      fromBlock: formatted_block_height,
+    }).compact
   end
 
 
@@ -33,11 +35,14 @@ class EventSubscription < ActiveRecord::Base
   def set_up
     self.xid = SecureRandom.uuid
     return unless filter_config.present?
-    self.filter ||= new_on_chain_filter
   end
 
-  def filter_params
-    filter_config.params
+  def check_missed_events
+    SubscriptionCheck.delay.perform(id)
+  end
+
+  def formatted_block_height
+    "0x#{ethereum.format_int_to_hex last_block_height}"
   end
 
 end
