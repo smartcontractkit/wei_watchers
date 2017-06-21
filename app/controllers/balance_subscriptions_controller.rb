@@ -8,7 +8,7 @@ class BalanceSubscriptionsController < ApiController
     })
 
     if subscription.save
-      success_response address: address, end_at: end_at.to_i
+      success_response xid: subscription.xid
     else
       failure_response subscription.errors.full_messages
     end
