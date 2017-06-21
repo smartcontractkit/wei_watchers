@@ -7,9 +7,9 @@ namespace :watcher do
       notification_url: input
     })
 
-    puts "USERNAME:\t\t#{subscriber.api_id}"
-    puts "PASSWORD:\t\t#{subscriber.api_key}"
-    puts "NOTIFICATION USERNAME:\t#{subscriber.notifier_id}"
-    puts "NOTIFICATION PASSWORD:\t#{subscriber.notifier_key}"
+    puts "Watcher Key:\t\t#{subscriber.api_id}"
+    puts "Watcher Secret:\t\t#{subscriber.api_key}"
+    puts "Notification Key:\t#{subscriber.notifier_id}"
+    puts "Notification Secret:\t#{subscriber.notifier_key}"
   end
 end
