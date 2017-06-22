@@ -11,7 +11,7 @@ describe EventSubscriptionsController, type: :controller do
     let(:topics) { nil }
     let(:filter_params) do
       {
-        account: address,
+        address: address,
         endAt: 1.year.from_now,
         topics: topics,
       }

@@ -34,7 +34,7 @@ class EventSubscriptionsController < ApiController
   end
 
   def find_account
-    if address = params[:account]
+    if address = params[:account] || params[:address]
       Account.find_or_create_by address: address
     else
       nil

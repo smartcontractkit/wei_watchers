@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root 'application#home'
 
   scope path: :api do
-    get 'status' => 'application#status'
+    get 'status' => 'api#status'
 
     get 'call' => 'call#show'
     resource :ethereum, only: [] do

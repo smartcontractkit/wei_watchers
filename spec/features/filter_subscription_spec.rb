@@ -9,7 +9,7 @@ describe "logging events", type: :request do
     write_address = oracle_data['functionHashes']['update(bytes32)']
 
     tx = send_eth_tx(default_account, {
-      data: hex_to_bin(oracle_data['bytecode']),
+      data: oracle_data['bytecode'],
       gas_limit: (oracle_data['gasEstimates']['creation'].last * 10),
     })
     contract_address = get_contract_address(tx.hash)
@@ -22,7 +22,7 @@ describe "logging events", type: :request do
 
     update_message = 'Hi Mom!'
     update_tx = send_eth_tx(default_account, {
-      data: hex_to_bin("#{write_address}#{ethereum.format_bytes32_hex update_message}"),
+      data: "#{write_address}#{ethereum.format_bytes32_hex update_message}",
       to: contract_address,
     })
     wait_for_ethereum_confirmation update_tx.hash

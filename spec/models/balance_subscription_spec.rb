@@ -9,4 +9,16 @@ describe BalanceSubscription, type: :model do
     it { is_expected.to have_valid(:end_at).when(Time.now) }
     it { is_expected.not_to have_valid(:end_at).when(nil) }
   end
+
+  describe "on create" do
+    let(:subscription) { factory_build :balance_subscription }
+
+    it "generates a uuid for the subscription" do
+      expect {
+        subscription.save
+      }.to change {
+        subscription.xid
+      }.from(nil)
+    end
+  end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170426004403) do
+ActiveRecord::Schema.define(version: 20170621005323) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "address"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20170426004403) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "end_at"
+    t.string   "xid"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|

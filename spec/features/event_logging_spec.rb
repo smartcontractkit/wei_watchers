@@ -8,7 +8,7 @@ describe "logging events" do
     updated_at_address = oracle_data['functionHashes']['updatedAt()']
 
     tx = send_eth_tx(default_account, {
-      data: hex_to_bin(oracle_data['bytecode']),
+      data: oracle_data['bytecode'],
       gas_limit: (oracle_data['gasEstimates']['creation'].last * 10),
     })
     contract_address = get_contract_address(tx.hash)
@@ -18,7 +18,7 @@ describe "logging events" do
 
     update_message = 'Hi Mom!'
     update_tx = send_eth_tx(default_account, {
-      data: hex_to_bin("#{write_address}#{ethereum.format_bytes32_hex update_message}"),
+      data: "#{write_address}#{ethereum.format_bytes32_hex update_message}",
       to: contract_address,
     })
 

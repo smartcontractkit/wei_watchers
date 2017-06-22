@@ -4,6 +4,21 @@ class ApiController < ActionController::Base
 
   before_filter :check_basic_credentials, :authenticate_subscriber
 
+  def status
+    block_height = ethereum.current_block_height
+    if block_height
+      render json: {
+        block: block_height.to_s,
+        time: Time.now.to_i.to_s,
+      }
+    else
+      render json: {
+        errors: ['Temporarily unavailable.'],
+        time: Time.now.to_i
+      }, status: :service_unavailable
+    end
+  end
+
 
   private
 
