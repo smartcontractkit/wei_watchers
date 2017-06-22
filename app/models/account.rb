@@ -9,8 +9,10 @@ class Account < ActiveRecord::Base
   validates :balance, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
   def notify_subscribers(info)
-    balance_subscriptions.current.pluck(:subscriber_id).each do |subscriber_id|
-      Subscriber.update_balance subscriber_id, info
+    balance_subscriptions.current.each do |subscription|
+      Subscriber.update_balance subscription.subscriber_id, info.merge({
+        subscription: subscription.xid,
+      })
     end
   end
 
