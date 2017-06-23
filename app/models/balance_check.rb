@@ -21,9 +21,9 @@ class BalanceCheck
 
       account.notify_subscribers({
         address: account.address,
-        current_balance: current_balance.to_s,
+        currentBalance: current_balance.to_s,
         difference: (past_balance - current_balance).to_s,
-        past_balance: past_balance.to_s,
+        pastBalance: past_balance.to_s,
       })
     end
   end

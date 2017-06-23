@@ -19,20 +19,18 @@ describe Account, type: :model do
 
     before do
       account.balance_subscriptions.create(subscriber: subscriber1, end_at: 1.minute.from_now)
-      account.balance_subscriptions.create(subscriber: subscriber2, end_at: 1.minute.from_now)
+      account.balance_subscriptions.create(subscriber: subscriber2, end_at: 1.second.ago)
       account.balance_subscriptions.create(subscriber: subscriber4, end_at: 1.minute.ago)
     end
 
     it "notifies only its accounts subscribers" do
-      uncalled_subscribers = [subscriber1, subscriber2].map(&:id)
       expect(Subscriber).to receive(:update_balance) do |subscriber_id, options|
-        expect(options).to eq(params)
-        expect(uncalled_subscribers).to include subscriber_id
-        uncalled_subscribers.delete subscriber_id
-      end.twice
+        subscription = subscriber1.balance_subscriptions.first
+        expect(options).to eq(params.merge(subscription: subscription.xid))
+        expect(subscriber_id).to eq(subscriber1.id)
+      end
 
       account.notify_subscribers(params)
-      expect(uncalled_subscribers).to be_empty
     end
   end
 end
