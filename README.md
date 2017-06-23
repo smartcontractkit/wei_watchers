@@ -3,4 +3,4 @@
 
 ### A service for push notifications of Ethereum logs and account balances.
 
-### Still in beta. [Reach out](mailto:support@smartcontract.com) if you have questions.
+### API documentation is [available here](https://weiwatchers-docs.smartcontract.com). If you have any questions, please [reach out](mailto:support@smartcontract.com).
