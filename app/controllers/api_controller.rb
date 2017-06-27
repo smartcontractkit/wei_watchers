@@ -4,6 +4,9 @@ class ApiController < ActionController::Base
 
   before_filter :check_basic_credentials, :authenticate_subscriber
 
+  include HasEthereumClient
+
+
   def status
     block_height = ethereum.current_block_height
     if block_height
