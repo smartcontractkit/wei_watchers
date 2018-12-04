@@ -128,7 +128,7 @@ class EthereumClient
   private
 
   def epost(method_name, params = nil)
-    hashie_post('/', {
+    hashie_post('', {
       id: HttpClient.random_id,
       jsonrpc: "2.0",
       method: method_name,
