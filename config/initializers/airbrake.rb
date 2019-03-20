@@ -2,8 +2,6 @@
 # https://github.com/airbrake/airbrake-ruby#configuration
 
 if ENV['AIRBRAKE_API_KEY'].present?
-  require 'airbrake/delayed_job/plugin'
-
   Airbrake.configure do |c|
     c.project_id = ENV['AIRBRAKE_PROJECT_ID']
     c.project_key = ENV['AIRBRAKE_API_KEY']
